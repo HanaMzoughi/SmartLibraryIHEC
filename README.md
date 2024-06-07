@@ -59,7 +59,7 @@ pip install -r requirements.txt
 
 #### Configure Environment Variables
 
-Create a `.env` file in the `backend` folder and add the following variables:
+Create a `.env` file in the `back` folder and add the following variables:
 
 ```
 SECRET_KEY=secret
@@ -83,13 +83,13 @@ python manage.py runserver
 #### Install Dependencies
 
 ```bash
-cd ../frontend
+cd ../front
 npm install
 ```
 
 #### Configure Environment Variables
 
-Create a `.env` file in the `frontend` folder and add the following variable:
+Create a `.env` file in the `front` folder and add the following variable:
 
 ```
 REACT_APP_API_URL=http://localhost:8000/
