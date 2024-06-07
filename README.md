@@ -62,15 +62,10 @@ pip install -r requirements.txt
 Create a `.env` file in the `backend` folder and add the following variables:
 
 ```
-SECRET_KEY=your_secret_key
-DEBUG=True
-ALLOWED_HOSTS=localhost,127.0.0.1
-DATABASE_NAME=database_name
-DATABASE_USER=user
-DATABASE_PASSWORD=password
-DATABASE_HOST=localhost
-DATABASE_PORT=27017
-JWT_SECRET=your_jwt_secret_key
+MONGO_DB_HOST=localhost
+MONGO_DB_PORT=27017
+MONGO_DB_NAME=library_database
+CORS_ALLOWED_ORIGINS=http://localhost:3000
 ```
 
 #### Start the Server
@@ -93,7 +88,7 @@ npm install
 Create a `.env` file in the `frontend` folder and add the following variable:
 
 ```
-REACT_APP_API_URL=http://localhost:8000/api
+REACT_APP_API_URL=http://localhost:8000/
 ```
 
 #### Start the Server
