@@ -62,6 +62,10 @@ pip install -r requirements.txt
 Create a `.env` file in the `backend` folder and add the following variables:
 
 ```
+SECRET_KEY=secret
+DEBUG=True
+ALLOWED_HOSTS=
+
 MONGO_DB_HOST=localhost
 MONGO_DB_PORT=27017
 MONGO_DB_NAME=library_database
