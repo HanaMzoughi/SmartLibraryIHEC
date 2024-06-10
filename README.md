@@ -27,7 +27,7 @@ For more detailed documentation, please refer to the [Project Documentation](htt
 ## Prerequisites
 
 - Node.js
-- Python 3
+- Python 3.11
 - MongoDB
 - pip (Python package installer)
 - virtualenv (to create Python virtual environments)
