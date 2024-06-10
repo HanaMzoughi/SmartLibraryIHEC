@@ -27,7 +27,7 @@ For more detailed documentation, please refer to the [Project Documentation](htt
 ## Prerequisites
 
 - Node.js
-- Python 3
+- Python 3.11
 - MongoDB
 - pip (Python package installer)
 - virtualenv (to create Python virtual environments)
@@ -62,10 +62,12 @@ pip install -r requirements.txt
 Create a `.env` file in the `back` folder and add the following variables:
 
 ```
+# Sensitive environment variables
 SECRET_KEY=secret
 DEBUG=True
-ALLOWED_HOSTS=
+ALLOWED_HOSTS=localhost
 
+# Production-specific environment variables
 MONGO_DB_HOST=localhost
 MONGO_DB_PORT=27017
 MONGO_DB_NAME=library_database
@@ -124,7 +126,3 @@ npm start
 3. Commit your changes (`git commit -m 'Add new feature'`).
 4. Push to the branch (`git push origin feature/new-feature`).
 5. Open a Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
