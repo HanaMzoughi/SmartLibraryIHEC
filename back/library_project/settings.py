@@ -3,15 +3,19 @@ from dotenv import load_dotenv
 import pymongo
 import os
 
+# Load environment variables from .env file
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
 
+# Define the base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Load secret key and debug status from environment variables
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', default=False)
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
+# Define the installed apps
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -22,6 +26,7 @@ INSTALLED_APPS = [
     'library_api',
 ]
 
+# Define the middleware stack
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -33,8 +38,10 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
+# Root URL configuration
 ROOT_URLCONF = 'library_project.urls'
 
+# Template settings
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -51,23 +58,28 @@ TEMPLATES = [
     },
 ]
 
+# WSGI application
 WSGI_APPLICATION = 'library_project.wsgi.application'
 
+# Database settings (using dummy backend for now)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.dummy',
     }
 }
 
+# MongoDB client setup
 client = pymongo.MongoClient(f"mongodb://{os.getenv('MONGO_DB_HOST')}:{os.getenv('MONGO_DB_PORT')}/")
 db = client[os.getenv('MONGO_DB_NAME')]
 
+# CORS settings
 CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
     os.getenv('CORS_ALLOWED_ORIGINS'),
 ]
 
+# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -83,6 +95,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Localization settings
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -91,6 +104,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Static files settings
 STATIC_URL = 'static/'
 
+# Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

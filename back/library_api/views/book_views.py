@@ -9,6 +9,26 @@ import json
 
 @csrf_exempt
 def book_register(request):
+
+    """
+    Registers a new book.
+
+    Method: POST
+    Authorization: Bearer token required
+
+    Body parameters:
+    - title: str (required)
+    - author: str (required)
+    - link: str (required)
+
+    Returns:
+    - 201: Book created successfully
+    - 400: Missing required fields or invalid JSON
+    - 401: Token expired or invalid
+    - 404: User not found
+    - 500: Internal server error
+    """
+
     if request.method == 'POST':
         token = request.headers.get('Authorization').split(' ')[1]
 
@@ -51,6 +71,17 @@ def book_register(request):
 
 
 def get_books(request):
+
+    """
+    Retrieves a list of all books.
+
+    Method: GET
+
+    Returns:
+    - 200: List of books
+    - 500: Internal server error
+    """
+
     if request.method == 'GET':
         try:
             book_data = BookRepository().get_books()
@@ -64,6 +95,21 @@ def get_books(request):
 
 
 def book_info(request, _id):
+
+    """
+    Retrieves information about a specific book.
+
+    Method: GET
+
+    Path parameters:
+    - _id: str (required)
+
+    Returns:
+    - 200: Book data
+    - 404: Book not found
+    - 500: Internal server error
+    """
+
     if request.method == 'GET':
         try:
             book_repo = BookRepository()
@@ -79,6 +125,30 @@ def book_info(request, _id):
 
 @csrf_exempt
 def book_update(request, book_id):
+
+    """
+    Updates information about a specific book.
+
+    Method: PUT
+    Authorization: Bearer token required
+
+    Path parameters:
+    - book_id: str (required)
+
+    Body parameters (at least one required):
+    - title: str
+    - author: str
+    - link: str
+
+    Returns:
+    - 200: Book updated successfully
+    - 400: No fields provided for update or invalid JSON
+    - 401: Token expired or invalid
+    - 403: Unauthorized
+    - 404: Book not found
+    - 500: Internal server error
+    """
+
     if request.method == 'PUT':
         token = request.headers.get('Authorization').split(' ')[1]
         try:
@@ -129,6 +199,24 @@ def book_update(request, book_id):
     return JsonResponse({'error': 'Invalid HTTP method'}, status=405)
 @csrf_exempt
 def book_delete(request, book_id):
+
+    """
+    Deletes a specific book.
+
+    Method: DELETE
+    Authorization: Bearer token required
+
+    Path parameters:
+    - book_id: str (required)
+
+    Returns:
+    - 200: Book deleted successfully
+    - 401: Token expired or invalid
+    - 403: Unauthorized
+    - 404: Book not found
+    - 500: Internal server error
+    """
+    
     if request.method == 'DELETE':
         token = request.headers.get('Authorization').split(' ')[1]
         try:

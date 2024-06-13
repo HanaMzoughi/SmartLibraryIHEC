@@ -7,6 +7,23 @@ from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def add_book_to_shelf(request, book_id):
+
+    """
+    Adiciona um livro à prateleira do usuário.
+
+    Método: POST
+    Autorização: Requer token Bearer
+
+    Parâmetros de caminho:
+    - book_id: str (obrigatório)
+
+    Retorna:
+    - 200: Livro adicionado com sucesso
+    - 401: Token expirado ou inválido
+    - 403: Usuário não encontrado
+    - 500: Erro interno do servidor
+    """
+
     if request.method == 'POST':
         token = request.headers.get('Authorization').split(' ')[1]
 
@@ -29,6 +46,19 @@ def add_book_to_shelf(request, book_id):
 
 @csrf_exempt
 def get_bookshelf(request):
+
+    """
+    Recupera a prateleira de livros do usuário.
+
+    Método: GET
+    Autorização: Requer token Bearer
+
+    Retorna:
+    - 200: Lista de IDs de livros na prateleira do usuário
+    - 401: Token expirado ou inválido
+    - 500: Erro interno do servidor
+    """
+
     if request.method == 'GET':
         token = request.headers.get('Authorization').split(' ')[1]
 
@@ -44,6 +74,24 @@ def get_bookshelf(request):
 
 @csrf_exempt
 def remove_book_to_shelf(request, book_id):
+
+    """
+    Remove um livro da prateleira do usuário.
+
+    Método: DELETE
+    Autorização: Requer token Bearer
+
+    Parâmetros de caminho:
+    - book_id: str (obrigatório)
+
+    Retorna:
+    - 200: Livro removido com sucesso
+    - 401: Token expirado ou inválido
+    - 403: Não autorizado ou usuário não encontrado
+    - 404: Livro não encontrado na prateleira
+    - 500: Erro interno do servidor
+    """
+    
     if request.method == 'DELETE':
         token = request.headers.get('Authorization').split(' ')[1]
 
