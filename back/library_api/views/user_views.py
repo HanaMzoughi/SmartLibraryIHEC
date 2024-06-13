@@ -213,3 +213,36 @@ def user_info(request):
             return JsonResponse({'error': str(e)}, status=500)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+def user_open_info(request, _id):
+    
+    """
+    Get user information by user ID.
+
+    Args:
+        request (HttpRequest): The request object.
+        _id (str): The user ID.
+
+    Returns:
+        JsonResponse: User information JSON response.
+        HttpResponseForbidden: Forbidden response if user not found or token expired/invalid.
+    """
+     
+    if request.method == 'GET':
+        try:
+            user_data = UserRepository().get_user_by_id(_id)
+
+            if user_data:
+                user_data = UserSerializer.sanitize(user_data)
+                user_data['_id'] = str(user_data['_id'])
+                return JsonResponse(user_data)
+            else:
+                return HttpResponseForbidden('User not found')
+        except jwt.ExpiredSignatureError:
+            return HttpResponseForbidden('Token expired')
+        except jwt.InvalidTokenError:
+            return HttpResponseForbidden('Invalid token')
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
