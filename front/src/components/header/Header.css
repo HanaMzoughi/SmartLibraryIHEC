@@ -1,0 +1,38 @@
+@import "../../utils/theme.css";
+
+.navigate-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 12vw;
+  position: fixed;
+  background-color: var(--primary-color);
+  align-items: center;
+  gap: 3%;
+  border-radius: 0px 10px 10px 0px;
+}
+
+.header-logo {
+  color: var(--secondary-text-color);
+  font-weight: bolder;
+  font-size: x-large;
+  padding-top: 15%;
+}
+
+.navigate-button {
+  background-color: var(--secondary-color);
+  height: 8vh;
+  width: 10vw;
+  border-radius: 10px;
+  text-align: center;
+  align-content: center;
+  text-decoration: none;
+  color: var(--secondary-text-color);
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.profile-button {
+  position: absolute;
+  bottom: 5%;
+}
