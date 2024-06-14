@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Nunito", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
+}
+
+.screen {
+  display: flex;
+  flex-direction: row;
+}
+
+.routes {
+  margin-left: 12vw;
+}
+
+.app-header {
+  position: fixed;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 80%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
