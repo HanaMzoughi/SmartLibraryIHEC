@@ -1,0 +1,10 @@
+@import "../../utils/theme.css";
+
+input {
+  background-color: transparent;
+  border-radius: 50px;
+  height: 40px;
+  border: 1px solid var(--primary-color);
+  width: 230px;
+  padding: 5%;
+}
