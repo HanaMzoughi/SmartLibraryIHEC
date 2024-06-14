@@ -1,0 +1,35 @@
+.book-list {
+  display: flex;
+  flex-wrap: wrap;
+  width: 86vw;
+  gap: 16px;
+  padding: 5% 1% 5% 8%;
+}
+
+.book-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  padding: 36px 2px 20px 2px;
+  border-radius: 8px;
+  cursor: pointer;
+  height: 300px;
+  width: 200px;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.book-item:hover {
+  background-color: #f0f0f0;
+}
+
+.book-title {
+  font-size: 1.2em;
+  margin: 0;
+}
+
+.book-author {
+  font-size: 0.9em;
+  color: #555;
+}
