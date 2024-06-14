@@ -1,0 +1,41 @@
+.book-detail-overlay {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 88vw;
+  gap: 5%;
+  justify-content: center;
+  align-items: center;
+  padding-inline: 10%;
+}
+
+.book-detail {
+  display: flex;
+  flex-direction: column;
+  background: #eee;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+  padding: 5%;
+  border-radius: 8px;
+  height: 75vh;
+  width: 25vw;
+  text-align: center;
+  justify-content: space-between;
+}
+
+.book-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  max-width: 600px;
+  gap: 20px;
+}
+
+.book-info p {
+  margin-left: 15px;
+}
+
+.book-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

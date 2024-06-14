@@ -1,0 +1,42 @@
+@import "../../utils/theme.css";
+
+.login-screen {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  margin-left: -12vw;
+  background-color: var(--primary-color);
+  justify-content: center;
+}
+
+.login-register-container {
+  display: flex;
+  flex-direction: column;
+  height: 450px;
+  width: 330px;
+  border-radius: 5%;
+  align-self: center;
+  align-items: center;
+  background-color: var(--background-color);
+}
+
+.login-register-logo {
+  color: var(--primary-text-color);
+  font-weight: bolder;
+  font-size: x-large;
+  padding-top: 25%;
+}
+
+.login-register-inputs {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 80%;
+  padding: 15% 0% 15% 0%;
+}
+
+.account-button {
+  cursor: pointer;
+}
