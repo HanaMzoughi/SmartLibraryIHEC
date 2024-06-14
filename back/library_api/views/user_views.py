@@ -9,6 +9,20 @@ import bcrypt
 
 @csrf_exempt
 def user_register(request):
+
+    """
+    Registers a new user.
+
+    Method: POST
+    Body: JSON containing 'email', 'username', and 'password'
+
+    Returns:
+        201: User created successfully
+        400: User creation failed (e.g., email already exists or invalid JSON)
+        405: Invalid request method
+        500: Internal server error
+    """
+
     if request.method == 'POST':
         try:
             data = UserSerializer.deserialize(request.body.decode('utf-8'))
@@ -33,6 +47,21 @@ def user_register(request):
 
 @csrf_exempt
 def user_login(request):
+
+    """
+    Logs in a user.
+
+    Method: POST
+    Body: JSON containing 'email' and 'password'
+
+    Returns:
+        200: JWT token
+        400: Invalid JSON
+        403: Invalid credentials
+        405: Invalid request method
+        500: Internal server error
+    """
+
     if request.method == 'POST':
         try:
             data = UserSerializer.deserialize(request.body.decode('utf-8'))
@@ -64,6 +93,19 @@ def user_login(request):
 
 @csrf_exempt
 def user_delete(request):
+
+    """
+    Deletes a user.
+
+    Method: DELETE
+    Header: Authorization token
+
+    Returns:
+        200: User deleted successfully
+        403: User not found or token invalid
+        405: Invalid request method
+    """
+
     if request.method == 'DELETE':
         token = request.headers.get('Authorization').split(' ')[1]
 
@@ -85,6 +127,20 @@ def user_delete(request):
 
 @csrf_exempt
 def user_update(request):
+
+    """
+    Updates a user's information.
+
+    Method: PUT
+    Header: Authorization token
+    Body: JSON containing 'username', 'password', 'bookshelf', and/or 'publishies'
+
+    Returns:
+        200: User updated successfully
+        403: User not found or token invalid
+        405: Invalid request method
+    """
+
     if request.method == 'PUT':
         token = request.headers.get('Authorization').split(' ')[1]
 
@@ -122,12 +178,58 @@ def user_update(request):
 
 @csrf_exempt
 def user_info(request):
+
+    """
+    Retrieves a user's information.
+
+    Method: GET
+    Header: Authorization token
+
+    Returns:
+        200: User information
+        403: User not found or token invalid
+        405: Invalid request method
+    """
+
     if request.method == 'GET':
         token = request.headers.get('Authorization').split(' ')[1]
 
         try:
             payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
             _id = payload['_id']
+            user_data = UserRepository().get_user_by_id(_id)
+
+            if user_data:
+                user_data = UserSerializer.sanitize(user_data)
+                user_data['_id'] = str(user_data['_id'])
+                return JsonResponse(user_data)
+            else:
+                return HttpResponseForbidden('User not found')
+        except jwt.ExpiredSignatureError:
+            return HttpResponseForbidden('Token expired')
+        except jwt.InvalidTokenError:
+            return HttpResponseForbidden('Invalid token')
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+def user_open_info(request, _id):
+    
+    """
+    Get user information by user ID.
+
+    Args:
+        request (HttpRequest): The request object.
+        _id (str): The user ID.
+
+    Returns:
+        JsonResponse: User information JSON response.
+        HttpResponseForbidden: Forbidden response if user not found or token expired/invalid.
+    """
+     
+    if request.method == 'GET':
+        try:
             user_data = UserRepository().get_user_by_id(_id)
 
             if user_data:
