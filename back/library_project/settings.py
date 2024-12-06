@@ -1,6 +1,7 @@
+
 from pathlib import Path
 from dotenv import load_dotenv
-import pymongo
+import pymongo # type: ignore
 import os
 
 # Load environment variables from .env file
@@ -13,7 +14,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Load secret key and debug status from environment variables
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', default=False)
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    # Ajoutez d'autres hôtes si nécessaire
+]
 
 # Define the installed apps
 INSTALLED_APPS = [
@@ -69,8 +75,11 @@ DATABASES = {
 }
 
 # MongoDB client setup
-client = pymongo.MongoClient(f"mongodb://{os.getenv('MONGO_DB_HOST')}:{os.getenv('MONGO_DB_PORT')}/")
-db = client[os.getenv('MONGO_DB_NAME')]
+mongo_uri = os.getenv('MONGO_DB_URI')
+db_name = os.getenv('MONGO_DB_NAME')
+
+client = pymongo.MongoClient(mongo_uri)
+db = client[db_name]
 
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = True

@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path # type: ignore
 from library_api.views import book_views, bookshelf_views, user_views
 
 # Define the URL patterns for the library API application
