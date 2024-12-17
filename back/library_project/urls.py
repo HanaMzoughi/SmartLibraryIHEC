@@ -1,5 +1,5 @@
 from django.urls import path # type: ignore
-from library_api.views import book_views, bookshelf_views, user_views
+from library_api.views import book_views, bookshelf_views, user_views, reservation_views
 
 # Define the URL patterns for the library API application
 urlpatterns = [
@@ -23,4 +23,10 @@ urlpatterns = [
     path('bookshelf/list/', bookshelf_views.get_bookshelf, name='bookshelf'), # Endpoint for fetching user's bookshelf
     path('bookshelf/<str:book_id>/add/', bookshelf_views.add_book_to_shelf, name='add_book_to_shelf'), # Endpoint for adding a book to the user's bookshelf
     path('bookshelf/<str:book_id>/remove/', bookshelf_views.remove_book_to_shelf, name='remove_book_to_shelf'), # Endpoint for removing a book from the user's bookshelf
+    # Reservation-related endpoints
+    path('reservation/create/', reservation_views.create_reservation, name='create_reservation'),  # Endpoint to create a reservation
+    path('reservations/all', reservation_views.get_reservations, name='get_reservations'), # Endpoint to get all reservations
+    path('reservation/<str:reservation_id>/', reservation_views.get_reservation, name='get_reservation'), # Endpoint to get details of a specific reservation
+    path('reservation/<str:reservation_id>/update/', reservation_views.update_reservation, name='update_reservation'), # Endpoint to update reservation status
+    path('reservation/<str:reservation_id>/delete/', reservation_views.delete_reservation, name='delete_reservation'), # Endpoint to delete a reservation
 ]
