@@ -1,35 +1,106 @@
-.book-list {
-  display: flex;
-  flex-wrap: wrap;
-  width: 86vw;
-  gap: 16px;
-  padding: 5% 1% 5% 8%;
+/* Container for the table */
+.table-container {
+  width: 100%; /* Utilise toute la largeur disponible */
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f5faff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  overflow-x: auto; /* Ajoute une barre de défilement horizontale si nécessaire */
 }
 
-.book-item {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border: 1px solid #ccc;
-  padding: 36px 2px 20px 2px;
-  border-radius: 8px;
+/* Table styling */
+.books-table {
+  width: 100%;
+  min-width: 1200px; /* Assure une largeur minimale même si l'écran est petit */
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+}
+
+.books-table th {
+  background-color: #11447b;
+  color: white;
+  padding: 20px;
+  text-align: left;
+  font-size: 1em;
+  text-transform: uppercase;
+}
+
+.books-table td {
+  padding: 20px;
+  border: 1px solid #ddd;
+  color: #333;
+  text-align: left;
+}
+
+.books-table tr:hover {
+  background-color: #e3f2fd;
   cursor: pointer;
-  height: 300px;
-  width: 200px;
-  text-align: center;
-  transition: background-color 0.3s;
 }
 
-.book-item:hover {
-  background-color: #f0f0f0;
+.books-table tr:nth-child(even) {
+  background-color: #f8f9fa;
 }
 
-.book-title {
-  font-size: 1.2em;
-  margin: 0;
+.books-table tr:nth-child(odd) {
+  background-color: #ffffff;
 }
 
-.book-author {
-  font-size: 0.9em;
-  color: #555;
+/* Pagination styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  list-style: none;
+  padding: 0;
+}
+
+.page-item {
+  margin: 0 5px;
+}
+
+.page-link {
+  padding: 8px 12px;
+  border: 1px solid #11447b;
+  border-radius: 4px;
+  color: #023165;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.page-link:hover {
+  background-color: #11447b;
+  color: white;
+}
+
+.active .page-link {
+  background-color: #11447b;
+  color: white;
+  border: none;
+}
+
+/* Barre de recherche */
+.search-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 10px 0;
+}
+
+.search-input {
+  flex: 2;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+.search-select {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1em;
+  margin-left: 10px;
 }

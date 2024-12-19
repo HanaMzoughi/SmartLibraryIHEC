@@ -40,7 +40,7 @@ const App = () => {
               element={<Profile handleAuth={handleAuth} />}
             />
             <Route path="/bookshelf" element={<Bookshelf auth={auth} />} />
-            <Route path="/:bookId" element={<Book />} />
+            <Route path="/:_id" element={<Book />} />
           </Routes>
         </div>
       </div>
