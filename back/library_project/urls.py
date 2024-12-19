@@ -12,6 +12,9 @@ urlpatterns = [
     # Any user info endpoint
     path('user/<str:_id>/', user_views.user_open_info, name='open_info_user'), # Endpoint for fetching specific user info
 
+    path('users/all/', user_views.get_all_users, name='get_all_users'),  # Endpoint to get all users
+    path('users/<str:_id>/edit/', user_views.user_update, name='update_user'),  # Endpoint for updating a specific user
+    path('users/<str:_id>/delete/', user_views.user_delete, name='delete_user'),  # Endpoint for deleting a specific user
     # Book-related endpoints
     path('', book_views.get_books, name='home'),  # Endpoint for fetching all books (home page)
     path('publish/', book_views.book_register, name='add book'), # Endpoint for adding a new book   

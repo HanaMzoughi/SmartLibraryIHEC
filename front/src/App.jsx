@@ -7,6 +7,8 @@ import Home from "./pages/home/Home";
 import Header from "./components/header/Header";
 import "./App.css";
 import Book from "./pages/book/Book";
+import UsersTable from "./pages/users/UsersTable";
+import AddStudent from "./pages/users/AddStudent";
 
 const App = () => {
   const [auth, setAuth] = useState("");
@@ -41,6 +43,8 @@ const App = () => {
             />
             <Route path="/bookshelf" element={<Bookshelf auth={auth} />} />
             <Route path="/:bookId" element={<Book />} />
+            <Route path="/create" element={<AddStudent />} />
+            <Route path="/userlist" element={<UsersTable handleAuth={handleAuth} /> } /> 
           </Routes>
         </div>
       </div>

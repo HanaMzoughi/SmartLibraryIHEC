@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./LoginRegister.css";
 import Button from "../../components/button/Button";
 import TextInput from "../../components/textInput/TextInput";
-import Popup from "../../components/popup/Popup"; // Importa o componente Popup
+import Popup from "../../components/popup/Popup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -11,8 +11,12 @@ export default function LoginRegister({ handleAuth }) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("étudiant");
+  const [university, setUniversity] = useState("");
+  const [speciality, setSpeciality] = useState("");
+  const [qrCode, setQrCode] = useState("");
   const [popupMessage, setPopupMessage] = useState("");
-  const [popupType, setPopupType] = useState(""); // Tipos de popup: success, error, warning
+  const [popupType, setPopupType] = useState(""); // success, error, warning
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,90 +24,68 @@ export default function LoginRegister({ handleAuth }) {
     if (token) {
       navigate("/");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  function goBack() {
-    navigate(-1);
-  }
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
+  }, [navigate]);
 
   const handleClosePopup = () => {
     setPopupMessage("");
     setPopupType("");
   };
 
-  const handleLogin = async () => {
+  const handleRegister = async () => {
     try {
-      if (!email || !password) {
-        setPopupMessage("Email and password are required");
+      if (!email || !username || !password || !role) {
+        setPopupMessage("Veuillez remplir tous les champs requis.");
         setPopupType("error");
         return;
       }
 
-      const response = await axios.post("http://localhost:8000/login/", {
-        email,
-        password,
-      });
+      const payload = { email, username, password, role };
 
-      const { token } = response.data;
-      localStorage.setItem("token", token); // Guardar o token no localStorage
-      handleAuth();
-      navigate("/"); // Redirecionar para a página de dashboard ou outra página
-    } catch (error) {
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        setPopupMessage(error.response.data.message);
-      } else {
-        setPopupMessage("Failed to login. Please try again.");
+      if (role === "étudiant") {
+        if (!university || !speciality) {
+          setPopupMessage(
+            "L'université et la spécialité sont requises pour les étudiants."
+          );
+          setPopupType("error");
+          return;
+        }
+        payload.university = university;
+        payload.speciality = speciality;
       }
+
+      const response = await axios.post("http://localhost:8000/register/", payload);
+
+      setPopupMessage("Inscription réussie !");
+      setPopupType("success");
+      setLogin(true);
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Échec de l'inscription. Veuillez réessayer.";
+      setPopupMessage(errorMessage);
       setPopupType("error");
     }
   };
 
-  const handleRegister = async () => {
+  const handleLogin = async () => {
     try {
-      if (!email || !username || !password) {
-        setPopupMessage("Email, username, and password are required");
+      if (!email && !qrCode) {
+        setPopupMessage("Veuillez fournir un email et un mot de passe ou un QR code.");
         setPopupType("error");
         return;
       }
 
-      const response = await axios.post("http://localhost:8000/register/", {
-        email,
-        username,
-        password,
-      });
+      const payload = qrCode ? { qr_code: qrCode } : { email, password };
 
-      console.log(response.data); // Exemplo de como lidar com a resposta da API
-      // Redirecionar ou mostrar mensagem de sucesso, etc.
-      setLogin(!login);
-      setPopupMessage("Registration successful!");
-      setPopupType("success");
+      const response = await axios.post("http://localhost:8000/login/", payload);
+
+      const { token } = response.data;
+      localStorage.setItem("token", token);
+      handleAuth();
+      navigate("/");
     } catch (error) {
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        setPopupMessage(error.response.data.message);
-      } else {
-        setPopupMessage("Failed to register. Please try again.");
-      }
+      const errorMessage =
+        error.response?.data?.error || "Échec de la connexion. Veuillez réessayer.";
+      setPopupMessage(errorMessage);
       setPopupType("error");
     }
   };
@@ -111,71 +93,94 @@ export default function LoginRegister({ handleAuth }) {
   return (
     <div className="login-screen">
       <div className="login-register-container">
-        <div className="login-register-logo">SARAIVA</div>
+        <div className="login-register-logo">IHEC</div>
         <div className="login-register-inputs">
           {login ? (
             <>
               <TextInput
                 placeholder={"Email"}
                 value={email}
-                onChange={handleEmailChange}
+                onChange={(e) => setEmail(e.target.value)}
                 type={"email"}
-                required={true}
               />
               <TextInput
-                placeholder={"Password"}
+                placeholder={"Mot de passe"}
                 value={password}
-                onChange={handlePasswordChange}
+                onChange={(e) => setPassword(e.target.value)}
                 type={"password"}
-                required={true}
+              />
+              <TextInput
+                placeholder={"QR Code"}
+                value={qrCode}
+                onChange={(e) => setQrCode(e.target.value)}
+                type={"text"}
               />
               <div onClick={() => setLogin(!login)} className="account-button">
-                Don't have an account?
+                Pas de compte ?
               </div>
               <div className="row">
-                <Button dark={false} text={"Cancel"} onClick={goBack} />
-                <Button dark={true} text={"Sign in"} onClick={handleLogin} />
+                <Button dark={false} text={"Annuler"} onClick={() => navigate(-1)} />
+                <Button dark={true} text={"Connexion"} onClick={handleLogin} />
               </div>
             </>
           ) : (
             <>
               <TextInput
-                placeholder={"Username"}
+                placeholder={"Nom d'utilisateur"}
                 value={username}
-                onChange={handleUsernameChange}
+                onChange={(e) => setUsername(e.target.value)}
                 type={"text"}
-                required={true}
               />
               <TextInput
                 placeholder={"Email"}
                 value={email}
-                onChange={handleEmailChange}
+                onChange={(e) => setEmail(e.target.value)}
                 type={"email"}
-                required={true}
               />
               <TextInput
-                placeholder={"Password"}
+                placeholder={"Mot de passe"}
                 value={password}
-                onChange={handlePasswordChange}
+                onChange={(e) => setPassword(e.target.value)}
                 type={"password"}
-                required={true}
               />
+              <label htmlFor="role">Choisissez un rôle :</label>
+              <select
+                id="role"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+              >
+                <option value="étudiant">Étudiant</option>
+                <option value="bibliothécaire">Bibliothécaire</option>
+                <option value="admin">Admin</option>
+              </select>
+              {role === "étudiant" && (
+                <>
+                  <TextInput
+                    placeholder={"Université"}
+                    value={university}
+                    onChange={(e) => setUniversity(e.target.value)}
+                    type={"text"}
+                  />
+                  <TextInput
+                    placeholder={"Spécialité"}
+                    value={speciality}
+                    onChange={(e) => setSpeciality(e.target.value)}
+                    type={"text"}
+                  />
+                </>
+              )}
               <div onClick={() => setLogin(!login)} className="account-button">
-                Already have an account?
+                Déjà un compte ?
               </div>
               <div className="row">
-                <Button dark={false} text={"Cancel"} onClick={goBack} />
-                <Button dark={true} text={"Sign up"} onClick={handleRegister} />
+                <Button dark={false} text={"Annuler"} onClick={() => navigate(-1)} />
+                <Button dark={true} text={"Inscription"} onClick={handleRegister} />
               </div>
             </>
           )}
         </div>
       </div>
-      <Popup
-        message={popupMessage}
-        type={popupType}
-        onClose={handleClosePopup}
-      />
+      <Popup message={popupMessage} type={popupType} onClose={handleClosePopup} />
     </div>
   );
 }

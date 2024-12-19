@@ -6,7 +6,7 @@
   height: 100vh;
   width: 12vw;
   position: fixed;
-  background-color: var(--primary-color);
+  background-color: rgb(4, 4, 123);
   align-items: center;
   gap: 3%;
   border-radius: 0px 10px 10px 0px;
@@ -20,14 +20,14 @@
 }
 
 .navigate-button {
-  background-color: var(--secondary-color);
+  background-color: white;
   height: 8vh;
   width: 10vw;
   border-radius: 10px;
   text-align: center;
   align-content: center;
   text-decoration: none;
-  color: var(--secondary-text-color);
+  color: blue;
   text-transform: uppercase;
   font-weight: bold;
 }

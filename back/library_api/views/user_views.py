@@ -34,15 +34,19 @@ def user_register(request):
             password = data.get('password')
 
             # Additional attributes for students
-            university = data.get('university') if role == 'student' else None
-            speciality = data.get('speciality') if role == 'student' else None
+            university = data.get('university') if role == 'étudiant' else None
+            speciality = data.get('speciality') if role == 'étudiant' else None
 
             user_repository = UserRepository()
+
+            # Pass university and speciality for students, None for others
             user_created = user_repository.create_user(
                 email=email,
                 username=data.get('username'),  # Assuming 'username' is in the data
                 password=password,
-                role=role
+                role=role,
+                university=university,  # Pass university for students
+                speciality=speciality   # Pass speciality for students
             )
 
             if user_created:
@@ -125,10 +129,9 @@ def user_login(request):
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 @csrf_exempt
-def user_delete(request):
-
+def user_delete(request, _id):
     """
-    Deletes a user.
+    Deletes a user based on their user ID.
 
     Method: DELETE
     Header: Authorization token
@@ -140,29 +143,35 @@ def user_delete(request):
     """
 
     if request.method == 'DELETE':
-        token = request.headers.get('Authorization').split(' ')[1]
+        token = request.headers.get('Authorization').split(' ')[1]  # Récupérer le token JWT
 
         try:
+            # Décodage du token pour récupérer les informations de l'utilisateur
             payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-            _id = payload['_id']
+            logged_in_user_id = payload['_id']  # ID de l'utilisateur connecté
+
             user_repo = UserRepository()
             user_data = user_repo.get_user_by_id(_id)
-            
+
             if user_data:
+                # Suppression de l'utilisateur
                 user_repo.delete_user(_id)
                 return JsonResponse({'message': 'User deleted successfully'})
             else:
                 return HttpResponseForbidden('User not found')
+
         except jwt.ExpiredSignatureError:
             return HttpResponseForbidden('Token expired')
         except jwt.InvalidTokenError:
             return HttpResponseForbidden('Invalid token')
 
-@csrf_exempt
-def user_update(request):
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
 
+@csrf_exempt
+def user_update(request, _id):
     """
-    Updates a user's information.
+    Updates a user's information based on their user ID.
 
     Method: PUT
     Header: Authorization token
@@ -175,36 +184,49 @@ def user_update(request):
     """
 
     if request.method == 'PUT':
-        token = request.headers.get('Authorization').split(' ')[1]
+        token = request.headers.get('Authorization').split(' ')[1]  # Récupérer le token JWT
 
         try:
+            # Décodage du token pour récupérer les informations de l'utilisateur
             payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-            _id = payload['_id']
+            logged_in_user_id = payload['_id']  # ID de l'utilisateur connecté
+
             user_repo = UserRepository()
             user_data = user_repo.get_user_by_id(_id)
-            
-            if user_data:
-                data = UserSerializer.deserialize(request.body.decode('utf-8'))
-                new_email = data.get('email')
-                new_role = data.get('role')
-                new_password = data.get('password')
 
+            if user_data:
+                # Désérialisation des données envoyées dans le corps de la requête
+                data = UserSerializer.deserialize(request.body.decode('utf-8'))
+                
+                # Seules ces informations peuvent être mises à jour
+                new_username = data.get('username')
+                new_email = data.get('email')
+                new_university = data.get('university')
+                new_speciality = data.get('speciality')
+
+                # Mise à jour uniquement des champs autorisés
+                if new_username:
+                    user_data['username'] = new_username
                 if new_email:
                     user_data['email'] = new_email
-                if new_role:
-                    user_data['role'] = new_role
-                if new_password:
-                    hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
-                    user_data['password'] = hashed_password.decode('utf-8')
+                if new_university:
+                    user_data['university'] = new_university
+                if new_speciality:
+                    user_data['speciality'] = new_speciality
 
+                # Mise à jour de l'utilisateur
                 user_repo.update_user(_id, user_data)
                 return JsonResponse({'message': 'User updated successfully'})
             else:
                 return HttpResponseForbidden('User not found')
+
         except jwt.ExpiredSignatureError:
             return HttpResponseForbidden('Token expired')
         except jwt.InvalidTokenError:
             return HttpResponseForbidden('Invalid token')
+
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 @csrf_exempt
 def user_info(request):
@@ -355,5 +377,49 @@ def generate_user_qr_code(request):
         except Exception as e:
             return JsonResponse({'error': f'Erreur lors de la génération du QR Code : {str(e)}'}, status=500)
 
+    else:
+        return JsonResponse({'error': 'Méthode HTTP non autorisée'}, status=405)
+    
+@csrf_exempt
+def get_all_users(request):
+    """
+    Récupère la liste de tous les utilisateurs.
+
+    Méthode: GET
+    En-tête: Token d'authentification
+
+    Returns:
+        200: Liste des utilisateurs
+        403: Token invalide ou expiré
+        405: Méthode non autorisée
+    """
+    if request.method == 'GET':
+        token = request.headers.get('Authorization')
+
+        if not token:
+            return JsonResponse({'error': 'Token d\'authentification requis'}, status=403)
+
+        try:
+            # Vérifier et décoder le token JWT
+            payload = jwt.decode(token.split(' ')[1], SECRET_KEY, algorithms=['HS256'])
+            user_repo = UserRepository()
+            users = user_repo.get_all_users()
+
+            # Si des utilisateurs sont trouvés
+            if users:
+                # Sérialiser et envoyer les données des utilisateurs
+                users_data = [UserSerializer.sanitize(user) for user in users]
+                for user in users_data:
+                    user['_id'] = str(user['_id'])
+                return JsonResponse({'users': users_data}, status=200)
+            else:
+                return JsonResponse({'message': 'Aucun utilisateur trouvé'}, status=404)
+
+        except jwt.ExpiredSignatureError:
+            return HttpResponseForbidden('Token expiré')
+        except jwt.InvalidTokenError:
+            return HttpResponseForbidden('Token invalide')
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
     else:
         return JsonResponse({'error': 'Méthode HTTP non autorisée'}, status=405)

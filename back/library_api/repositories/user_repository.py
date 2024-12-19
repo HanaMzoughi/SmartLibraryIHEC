@@ -12,7 +12,7 @@ class UserRepository:
         self.db = db
         self.collection = self.db['users']
 
-    def create_user(self, email, username, password, role):
+    def create_user(self, email, username, password, role,university=None, speciality=None):
         """
         Create a new user in the database.
         The role is provided as a parameter and is independent of the email domain.
@@ -29,8 +29,7 @@ class UserRepository:
             qr_duration = 24  # 24 hours for non-IHEC students
 
         # Admins and bibliothécaires do not need QR codes
-        if role == "admin" or role == "bibliothécaire":
-            qr_duration = None
+        
 
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         user_data = {
@@ -40,7 +39,9 @@ class UserRepository:
             'role': role,
             'qr_duration': qr_duration  # Set QR duration based on email domain
         }
-
+        if role == "étudiant":
+            user_data['university'] = university
+            user_data['speciality'] = speciality
         result = self.collection.insert_one(user_data)
         return result.acknowledged
 
@@ -75,3 +76,8 @@ class UserRepository:
         """
         result = self.collection.update_one({'_id': ObjectId(_id)}, {'$set': new_data})
         return result.modified_count > 0
+    def get_all_users(self):
+        """
+        Retrieves all users from the database.
+        """
+        return list(self.collection.find())  # Retourne tous les utilisateurs
