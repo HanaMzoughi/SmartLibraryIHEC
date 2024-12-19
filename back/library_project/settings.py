@@ -1,6 +1,6 @@
 
 from pathlib import Path
-from dotenv import load_dotenv
+from dotenv import load_dotenv # type: ignore
 import pymongo # type: ignore
 import os
 

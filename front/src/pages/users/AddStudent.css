@@ -1,0 +1,101 @@
+/* Conteneur principal */
+.add-student-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+    max-width: 500px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Titre principal */
+  .add-student-container h1 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Messages d'erreur et de succès */
+  .error-message {
+    color: #ff4d4d;
+    background-color: #ffe6e6;
+    border: 1px solid #ffcccc;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .success-message {
+    color: #4caf50;
+    background-color: #e8f5e9;
+    border: 1px solid #a5d6a7;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  /* Formulaire */
+  .add-student-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  /* Champs du formulaire */
+  .add-student-form input {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .add-student-form input:focus {
+    border-color: #4caf50;
+    outline: none;
+    box-shadow: 0 0 4px rgba(76, 175, 80, 0.3);
+  }
+  
+  /* Boutons */
+  .add-student-form button {
+    margin-top: 10px;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-student-form button[type="submit"] {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .add-student-form button[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  
+  .add-student-form button[type="button"] {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .add-student-form button[type="button"]:hover {
+    background-color: #e53935;
+  }
+  
+  /* Boutons désactivés */
+  .add-student-form button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  

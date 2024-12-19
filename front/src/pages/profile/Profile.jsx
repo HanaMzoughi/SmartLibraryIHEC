@@ -9,13 +9,18 @@ import Popup from "../../components/popup/Popup";
 
 export default function Profile({ handleAuth }) {
   const navigate = useNavigate();
-  const [user, setUser] = useState({ _id: "", email: "", username: "" });
-  const [books, setBooks] = useState([]);
-  const [newTitle, setNewTitle] = useState("");
-  const [newAuthor, setNewAuthor] = useState("");
-  const [newLink, setNewLink] = useState("");
-  const [passwordUpdate, setPasswordUpdate] = useState("");
+  const [user, setUser] = useState({
+    _id: "",
+    email: "",
+    username: "",
+    role: "",
+    university: "",
+    speciality: "",
+  });
+
   const [usernameUpdate, setUsernameUpdate] = useState("");
+  const [universityUpdate, setUniversityUpdate] = useState("");
+  const [specialityUpdate, setSpecialityUpdate] = useState("");
   const [popupMessage, setPopupMessage] = useState("");
   const [popupType, setPopupType] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -30,10 +35,14 @@ export default function Profile({ handleAuth }) {
               Authorization: `Bearer ${token}`,
             },
           });
-          const { _id, email, username } = response.data;
-          setUser({ _id, email, username });
+
+          // Mettre à jour l'état de l'utilisateur et les champs de mise à jour
+          setUser(response.data);
+          setUsernameUpdate(response.data.username); // Mettre à jour avec les données actuelles
+          setUniversityUpdate(response.data.university);
+          setSpecialityUpdate(response.data.speciality);
         } else {
-          console.log("token missing");
+          console.log("Token missing");
         }
       } catch (error) {
         console.error("Error fetching profile:", error);
@@ -41,23 +50,7 @@ export default function Profile({ handleAuth }) {
     };
 
     fetchProfile();
-    fetchBooks();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token, user._id]);
-
-  const fetchBooks = async () => {
-    try {
-      if (token != null) {
-        const response = await axios.get("http://localhost:8000/");
-        const userBooks = response.data.filter(
-          (book) => book.post_by === user._id
-        );
-        setBooks(userBooks);
-      }
-    } catch (error) {
-      console.error("Error fetching books:", error);
-    }
-  };
+  }, [token]);
 
   const handleLogout = () => {
     if (token != null) {
@@ -67,77 +60,60 @@ export default function Profile({ handleAuth }) {
     navigate("/");
   };
 
-  const handleTitleChange = (event) => {
-    setNewTitle(event.target.value);
-  };
-  const handleAuthorChange = (event) => {
-    setNewAuthor(event.target.value);
-  };
-  const handleLinkChange = (event) => {
-    setNewLink(event.target.value);
-  };
-
-  const handlePublish = async () => {
-    try {
-      if (!newTitle || !newAuthor || !newLink) {
-        setPopupMessage("Missing fields");
-        setPopupType("error");
-        return;
-      }
-
-      const data = { title: newTitle, author: newAuthor, link: newLink };
-
-      const response = await axios.post(
-        "http://localhost:8000/publish/",
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log(response.data);
-      fetchBooks();
-      setPopupMessage("Book published successfully!");
-      setPopupType("success");
-    } catch (error) {
-      console.error("Error publishing book:", error);
-      setPopupMessage("Error publishing book");
-      setPopupType("error");
-    }
-  };
-
   const handleUsernameChange = (event) => {
     setUsernameUpdate(event.target.value);
   };
 
-  const handlePasswordChange = (event) => {
-    setPasswordUpdate(event.target.value);
+  const handleUniversityChange = (event) => {
+    setUniversityUpdate(event.target.value);
+  };
+
+  const handleSpecialityChange = (event) => {
+    setSpecialityUpdate(event.target.value);
   };
 
   const handleProfileUpdate = async () => {
     try {
-      if (!passwordUpdate && !usernameUpdate) {
+      // Validation des champs
+      if (!usernameUpdate && !universityUpdate && !specialityUpdate) {
         setPopupMessage("Missing fields");
         setPopupType("error");
         return;
       }
-      const data = { username: usernameUpdate, password: passwordUpdate };
+
+      // Créer un objet avec les champs à mettre à jour
+      const data = {
+        username: usernameUpdate,
+        university: user.role === "étudiant" ? universityUpdate : undefined,
+        speciality: user.role === "étudiant" ? specialityUpdate : undefined,
+      };
+
+      // Supprimer les champs vides pour éviter de les envoyer
+      const cleanedData = Object.fromEntries(Object.entries(data).filter(([_, v]) => v !== undefined));
+
+      // Faire la requête PUT pour mettre à jour le profil de l'utilisateur
       const response = await axios.put(
-        "http://localhost:8000/profile/edit/",
-        data,
+        `http://localhost:8000/users/${user._id}/edit/`, // URL avec l'ID de l'utilisateur
+        cleanedData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
+
       if (response.status === 200) {
-        if (usernameUpdate !== "") {
-          setUser({ username: usernameUpdate });
-        }
-        setUsernameUpdate("");
-        setPasswordUpdate("");
+        // Mettre à jour l'état avec les nouvelles données (pas seulement réinitialiser)
+        setUser((prevUser) => ({
+          ...prevUser,
+          ...cleanedData, // Mettre à jour les propriétés spécifiques
+        }));
+
+        // Mettre à jour les champs de mise à jour pour qu'ils affichent les nouvelles valeurs
+        setUsernameUpdate(response.data.username);
+        setUniversityUpdate(response.data.university);
+        setSpecialityUpdate(response.data.speciality);
+
         setPopupMessage("Profile updated successfully!");
         setPopupType("success");
       }
@@ -148,43 +124,29 @@ export default function Profile({ handleAuth }) {
     }
   };
 
-  const handleBookClick = (bookId) => {
-    navigate(`/${bookId}`);
-  };
-
-  const handleClosePopup = () => {
-    setPopupMessage("");
-    setPopupType("");
-  };
-
   const handleDeleteUser = async () => {
     try {
-      // Não exibir o modal de exclusão se não houver um token
       if (token == null) {
         console.log("Token missing");
         return;
       }
 
-      // Oculta o modal de exclusão
       setShowDeleteModal(false);
 
-      // Realiza a exclusão do livro
-      await axios.delete(`http://localhost:8000/profile/delete/`, {
+      await axios.delete(`http://localhost:8000/users/${user._id}/delete/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      // Exibe uma mensagem de sucesso
       setPopupMessage("User deleted successfully!");
       setPopupType("success");
 
-      // Redirecionar para uma página de sucesso ou qualquer outra ação necessária após a exclusão
       setTimeout(() => {
         handleLogout();
       }, 1000);
     } catch (error) {
-      console.error("Error deleting book:", error);
+      console.error("Error deleting user:", error);
       setPopupMessage("Failed to delete User. Please try again.");
       setPopupType("error");
     }
@@ -195,37 +157,19 @@ export default function Profile({ handleAuth }) {
       {token !== null ? (
         <div>
           <div className="profile-hello">
-            <p>Hello, {user.username}! </p>
+            <p>Hello, {user.username}!</p>
             <p className="profile-email">{user.email}</p>
             <Button dark={false} onClick={handleLogout} text={"Logout"} />
           </div>
-          <div className="profile-inputs">
-            <div className="column profile-publish">
-              <p>New Publication</p>
-              <TextInput
-                name="title"
-                onChange={handleTitleChange}
-                placeholder={"Title"}
-                type={"text"}
-                value={newTitle}
-              />
-              <TextInput
-                name="author"
-                onChange={handleAuthorChange}
-                placeholder={"Author"}
-                type={"text"}
-                value={newAuthor}
-              />
-              <TextInput
-                name="link"
-                onChange={handleLinkChange}
-                placeholder={"PDF Link"}
-                type={"text"}
-                value={newLink}
-              />
-              <Button dark={true} text={"Publish"} onClick={handlePublish} />
+          {/* Affichage conditionnel pour les étudiants */}
+          {user.role === "étudiant" && (
+            <div className="student-info">
+              <p><strong>Spécialité :</strong> {user.speciality}</p>
+              <p><strong>Université :</strong> {user.university}</p>
             </div>
-            <p className="logo">SARAIVA</p>
+          )}
+          <div className="profile-inputs">
+            <p className="logo">IHEC</p>
             <div className="column profile-update">
               <p>Update your profile</p>
               <TextInput
@@ -233,47 +177,30 @@ export default function Profile({ handleAuth }) {
                 onChange={handleUsernameChange}
                 placeholder={"Username"}
                 type={"text"}
-                value={usernameUpdate}
+                value={usernameUpdate}  // Afficher la valeur actuelle de username
               />
-              <TextInput
-                name="password"
-                onChange={handlePasswordChange}
-                placeholder={"Password"}
-                type={"password"}
-                value={passwordUpdate}
-              />
+              {/* Affichage des champs University et Speciality uniquement pour les étudiants */}
+              {user.role === "étudiant" && (
+                <>
+                <TextInput
+                    name="speciality"
+                    onChange={handleSpecialityChange}
+                    placeholder={"Speciality"}
+                    type={"text"}
+                    value={specialityUpdate}  // Afficher la valeur actuelle de speciality
+                  />
+                  <TextInput
+                    name="university"
+                    onChange={handleUniversityChange}
+                    placeholder={"University"}
+                    type={"text"}
+                    value={universityUpdate}  // Afficher la valeur actuelle de university
+                  />
+                  
+                </>
+              )}
               <Button dark={true} text={"Save"} onClick={handleProfileUpdate} />
             </div>
-          </div>
-          <div className="profile-publications">
-            <p>Your Publications</p>
-            {books.length > 0 ? (
-              <div className="book-list">
-                {books.map((book) => (
-                  <div
-                    className="book-item"
-                    key={book._id}
-                    onClick={() => handleBookClick(book.id)}
-                  >
-                    <h3 className="book-title">{book.title}</h3>
-                    <p className="book-author">{book.author}</p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div
-                style={{
-                  height: "10vh",
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <p>Waiting your first publication</p>
-              </div>
-            )}
           </div>
         </div>
       ) : (
@@ -297,7 +224,7 @@ export default function Profile({ handleAuth }) {
         <p onClick={() => setShowDeleteModal(true)}>Delete your account?</p>
       </div>
 
-      {/* Modal de confirmação para exclusão */}
+      {/* Modal de confirmation pour suppression */}
       <Modal
         show={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
@@ -312,7 +239,7 @@ export default function Profile({ handleAuth }) {
       <Popup
         message={popupMessage}
         type={popupType}
-        onClose={handleClosePopup}
+        onClose={() => setPopupMessage("")}
       />
     </div>
   );
