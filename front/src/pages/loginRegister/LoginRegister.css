@@ -12,19 +12,20 @@
 .login-register-container {
   display: flex;
   flex-direction: column;
-  height: 450px;
-  width: 330px;
+  height: 600px; /* Augmenter la hauteur */
+  width: 400px;  /* Augmenter la largeur */
   border-radius: 5%;
   align-self: center;
   align-items: center;
   background-color: var(--background-color);
+  padding: 20px; /* Ajouter un peu de padding pour espacer les éléments */
 }
 
 .login-register-logo {
   color: var(--primary-text-color);
   font-weight: bolder;
-  font-size: x-large;
-  padding-top: 25%;
+  font-size: xx-large; /* Augmenter la taille du logo */
+  padding-top: 10%;  /* Réduire l'espace supérieur */
 }
 
 .login-register-inputs {
@@ -33,10 +34,12 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  width: 80%;
-  padding: 15% 0% 15% 0%;
+  width: 90%;  /* Augmenter la largeur des inputs */
+  padding: 5% 0%;  /* Réduire les espaces verticaux pour une meilleure répartition */
 }
 
 .account-button {
   cursor: pointer;
+  font-size: large; /* Agrandir le texte */
+  margin-top: 10px; /* Espacement supplémentaire */
 }

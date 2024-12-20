@@ -66,7 +66,7 @@ class Book:
     def to_dict(self):
         """
         Convertit l'instance de Book en dictionnaire.
-
+        
         Returns:
             dict: Une représentation dictionnaire de l'instance Book.
         """

@@ -18,7 +18,12 @@ class UserSerializer:
             '_id': str(user.get('_id')),
             'email': user.get('email'),
             'username': user.get('username'),
+            'role': user.get('role'),
         }
+         # Include qr_duration if the user is an IHEC student
+        if 'qr_duration' in user:
+            user_data['qr_duration'] = user.get('qr_duration')
+            
         return user_data
 
     @staticmethod
