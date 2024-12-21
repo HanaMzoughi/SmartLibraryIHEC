@@ -151,7 +151,7 @@ export default function LoginRegister({ handleAuth }) {
               >
                 <option value="étudiant">Étudiant</option>
                 <option value="bibliothécaire">Bibliothécaire</option>
-                <option value="admin">Admin</option>
+                
               </select>
               {role === "étudiant" && (
                 <>
