@@ -1,112 +1,137 @@
 :root {
-  --ihec-primary: #003366;    /* Bleu IHEC */
-  --ihec-secondary: #f8f9fa;  /* Gris clair pour le fond */
-  --ihec-accent: #e6b800;     /* Accent doré */
+  --ihec-primary: #003366; /* Bleu principal */
+  --ihec-secondary: #f8f9fa; /* Gris clair */
+  --ihec-accent: #00509e; /* Accent plus clair */
   --text-dark: #333333;
   --text-light: #ffffff;
   --border-color: #dee2e6;
+  --gradient-primary: linear-gradient(90deg, #003366 0%, #00509e 100%);
+  --light-blue: #e6f0ff; /* Couleur bleu clair pour le fond des cases */
 }
-
-/* Styles généraux */
-.Book {
-  max-width: 1200px;
+/* Ajout pour appliquer le background à toute la page */
+body {
+  background-color: var(--ihec-secondary); /* Gris clair */
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+} 
+/* Conteneur principal */
+.book-container {
+  max-width: 1000px; /* Réduire la taille max pour que le contenu soit plus compact */
   margin: 0 auto;
   padding: 2rem;
-  background-color: var(--ihec-secondary);
-  font-family: 'Arial', sans-serif;
+  background-color: #fff; /* Fond blanc pour la zone du contenu */
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  border-radius: 8px; /* Coins arrondis */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
 }
 
-/* En-tête */
-h1 {
+/* Phrase au-dessus du titre */
+.book-details-heading {
+  text-align: center;
+  color: var(--ihec-primary);
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Titre principal */
+.book-title {
   color: var(--ihec-primary);
   text-align: center;
   font-size: 2.5rem;
   margin-bottom: 2rem;
-  border-bottom: 3px solid var(--ihec-accent);
-  padding-bottom: 1rem;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-h2 {
-  color: var(--ihec-primary);
-  font-size: 1.5rem;
-  margin: 1rem 0;
-}
-
-/* Overlay des détails du livre */
+/* Détails du livre */
 .book-detail-overlay {
   display: grid;
-  grid-template-columns: 1fr;
   gap: 2rem;
   background-color: #ffffff;
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
 }
 
 /* Informations du livre */
 .book-info {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: 1fr; /* Une colonne */
   gap: 1.5rem;
 }
 
-.book-info div {
-  background-color: var(--ihec-secondary);
-  padding: 1.5rem;
+.book-info-item {
+  background-color: var(--light-blue); /* Fond bleu clair pour chaque case */
+  padding: 1rem;
   border-radius: 6px;
   border-left: 4px solid var(--ihec-primary);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.book-info h2 {
+.book-info-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.book-info-item h2 {
   color: var(--ihec-primary);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   margin: 0 0 0.5rem 0;
 }
 
-.book-info p {
+.book-info-item p {
   color: var(--text-dark);
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1rem;
   line-height: 1.4;
+  word-wrap: break-word;
 }
 
 /* Messages d'état */
-div:has(+ .book-detail-overlay) {
+.loading-message,
+.error-message {
   text-align: center;
   padding: 2rem;
-  background-color: var(--ihec-secondary);
   border-radius: 6px;
   margin: 1rem 0;
+  font-weight: bold;
 }
 
-/* Message d'erreur */
-div:has(+ .book-detail-overlay)[class*="error"] {
-  color: #dc3545;
-  border: 1px solid #dc3545;
-  background-color: #fff5f5;
-}
-
-/* Message de chargement */
-div:has(+ .book-detail-overlay):not([class]) {
+.loading-message {
   color: var(--ihec-primary);
-  font-weight: 600;
 }
 
-/* Responsive */
+.error-message {
+  color: #dc3545;
+  background-color: #fff5f5;
+  border: 1px solid #dc3545;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
   .book-detail-overlay {
     padding: 1rem;
   }
-  
+
   .book-info {
     grid-template-columns: 1fr;
   }
-  
-  h1 {
+
+  .book-title {
     font-size: 2rem;
   }
-  
-  .book-info div {
+
+  .book-info-item {
     padding: 1rem;
   }
 }

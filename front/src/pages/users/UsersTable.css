@@ -1,48 +1,194 @@
+/* Conteneur principal de la table */
 .users-table-container {
     width: 100%;
-    margin: 20px 40px;
+    margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    background-color: #FFFFFF; /* Couleur de fond claire */
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Ombre portée subtile */
+    overflow-x: auto; /* Ajouter une barre de défilement horizontale si nécessaire */
+    border: none;
 }
 
+/* Titre de la page */
 .users-table-container h1 {
     text-align: center;
     margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
+    font-size: 28px;
+    font-weight: bold;
+    color: white; /* Titre en blanc */
+    background-color: #457b9d; /* Fond bleu */
+    padding: 10px; /* Optionnel, pour ajouter de l'espace autour du texte */
+    border-radius: 8px; /* Optionnel, pour arrondir les coins du fond */
 }
 
+/* Table */
 .users-table {
     width: 100%;
     border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 10px;
 }
 
+/* Style des cellules de la table */
 .users-table th, .users-table td {
-    padding: 12px;
+    padding: 12px 15px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #e6e6e6;
 }
 
+/* Style des en-têtes de la table */
 .users-table th {
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #457b9d;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 600;
 }
 
+/* Lignes paires de la table */
 .users-table tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #f1f5f8;
 }
 
+/* Effet de survol des lignes de la table */
 .users-table tr:hover {
-    background-color: #f1f1f1;
+    background-color: #e8f0fe;
+    transition: background-color 0.3s;
 }
 
+/* Style des cellules de données */
 .users-table td {
-    color: #555;
+    color: #1d3557;
 }
-.buttonuserlist{
+
+/* Bouton "Ajouter utilisateur" */
+.button-add-user {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 15px 20px; /* Augmente la taille du bouton */
+    background-color: #28a745; /* Couleur verte */
+    color: white; /* Texte en blanc */
+    border: none;
+    border-radius: 8px; /* Coins légèrement plus arrondis */
+    cursor: pointer;
+    font-size: 22px; /* Texte légèrement plus grand */
+    transition: all 0.3s ease; /* Animation douce pour les interactions */
+}
+
+/* Effet au survol */
+.button-add-user:hover {
+    background-color: #218838; /* Vert plus foncé au survol */
+    transform: scale(1.05); /* Légèrement plus grand */
+}
+
+/* Bouton "Modifier" */
+.button-edit {
+    padding: 6px 10px;
+    background-color: #0a397a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+
+/* Bouton "Supprimer" - en rouge */
+.button-delete {
+    padding: 6px 10px;
+    background-color: #d62828; /* Rouge vif */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.button-delete:hover {
+    background-color: #d62828; /* Rouge plus foncé au survol */
+}
+
+
+/* Formulaire de modification de l'utilisateur */
+.edit-form input {
     margin-bottom: 10px;
+    padding: 8px;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+.add-student-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+    max-width: 1000px;
+    padding: 100px;
+    background-color: #ffffff; /* Fond gris clair */
+    border-radius: 8px; /* Arrondi des coins */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+    font-family: 'Arial', sans-serif; /* Police moderne et simple */
+   /* Permet de placer le titre en haut */
+    text-align: center; /* Centrer le texte horizontalement */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+/* Bouton Sauvegarder (bleu) */
+.button-save {
+    padding: 10px 15px;
+    background-color: #007bff; /* Bleu */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
     margin-right: 10px;
+    transition: all 0.3s ease; /* Transition pour l'effet */
+}
+
+.button-save:hover {
+    background-color: #0056b3; /* Bleu plus foncé au survol */
+}
+
+/* Bouton Annuler (rouge) */
+.button-cancel {
+    padding: 10px 15px;
+    background-color: #dc3545; /* Rouge */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease; /* Transition pour l'effet */
+}
+
+.button-cancel:hover {
+    background-color: #a71d2a; /* Rouge plus foncé au survol */
+}
+
+
+/* Réactivité pour les petits écrans */
+@media (max-width: 768px) {
+    .users-table-container {
+        padding: 10px;
+    }
+
+    .users-table th, .users-table td {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .button-add-user, .button-edit, .button-delete {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
 }

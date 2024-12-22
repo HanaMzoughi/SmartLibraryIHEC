@@ -66,7 +66,11 @@ class Book:
     def to_dict(self):
         """
         Convertit l'instance de Book en dictionnaire.
+<<<<<<<<< Temporary merge branch 1
         
+=========
+
+>>>>>>>>> Temporary merge branch 2
         Returns:
             dict: Une représentation dictionnaire de l'instance Book.
         """

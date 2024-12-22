@@ -102,7 +102,7 @@ const UsersTable = () => {
       <h1>Liste des utilisateurs</h1>
       
       {/* Bouton pour naviguer vers la page de création */}
-      <button onClick={() => navigate('/create')}>Ajouter utilisateur</button>
+      <button onClick={() => navigate('/create')}>Ajouter étudiant</button>
 
       {editMode ? (
         <div className="edit-form">
@@ -119,28 +119,18 @@ const UsersTable = () => {
             onChange={(e) => setCurrentUser({ ...currentUser, email: e.target.value })}
             placeholder="Email"
           />
-          
-          {/* Afficher "Université" et "Spécialité" seulement pour les étudiants */}
-          {currentUser.role !== 'bibliothécaire' && (
-            <>
-              <input
-                type="text"
-                value={currentUser.university}
-                onChange={(e) => setCurrentUser({ ...currentUser, university: e.target.value })}
-                placeholder="Université"
-              />
-              <input
-                type="text"
-                value={currentUser.speciality}
-                onChange={(e) => setCurrentUser({ ...currentUser, speciality: e.target.value })}
-                placeholder="Spécialité"
-              />
-            </>
-          )}
-
-          {/* Le rôle est affiché en mode lecture uniquement (non modifiable) */}
-          <p>Rôle: {currentUser.role}</p>
-
+          <input
+            type="text"
+            value={currentUser.university}
+            onChange={(e) => setCurrentUser({ ...currentUser, university: e.target.value })}
+            placeholder="Université"
+          />
+          <input
+            type="text"
+            value={currentUser.speciality}
+            onChange={(e) => setCurrentUser({ ...currentUser, speciality: e.target.value })}
+            placeholder="Spécialité"
+          />
           <button onClick={handleSaveEdit}>Sauvegarder</button>
           <button onClick={handleCancelEdit}>Annuler</button>
         </div>
@@ -166,8 +156,8 @@ const UsersTable = () => {
                 <td>{user.role}</td> {/* Affichage du rôle */}
                 <td>
                   {/* Boutons d'action */}
-                  <button className="buttonuserlist" onClick={() => handleEdit(user._id)}>Modifier</button>
-                  <button onClick={() => handleDelete(user._id)}>Supprimer</button>
+                  <button className="button-edit" onClick={() => handleEdit(user._id)}>Modifier</button>
+                  <button className="button-delete" onClick={() => handleDelete(user._id)}>Supprimer</button>
                 </td>
               </tr>
             ))}
