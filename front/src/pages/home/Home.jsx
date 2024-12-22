@@ -12,17 +12,6 @@ const Home = () => {
   const itemsPerPage = 8;
   const navigate = useNavigate();
 
-  // Fonction pour décoder le token JWT et récupérer l'ID de l'utilisateur
-  const decodeToken = (token) => {
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1])); // Décoder le payload du token
-      return payload._id; // Retourner l'ID de l'utilisateur
-    } catch (error) {
-      console.error("Erreur lors du décodage du token:", error);
-      return null;
-    }
-  };
-
   useEffect(() => {
     const fetchBooks = async () => {
       try {
@@ -34,31 +23,7 @@ const Home = () => {
     };
 
     fetchBooks();
-
-    // Récupérer et décoder le token pour obtenir l'ID de l'utilisateur
-    const token = localStorage.getItem("token");
-    if (token) {
-      const userId = decodeToken(token); // Utiliser la fonction pour obtenir l'ID
-      if (userId) {
-        // Fetch les informations de l'utilisateur en utilisant l'ID
-        fetchUserInfo(userId, token);
-      }
-    }
   }, []);
-
-  const fetchUserInfo = async (userId, token) => {
-    try {
-      const response = await axios.get(`http://localhost:8000/user/${userId}/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setUsername(response.data.username); // Définir le nom d'utilisateur
-      setRole(response.data.role)
-    } catch (error) {
-      console.error("Error fetching user info:", error);
-    }
-  };
 
   const handleBookClick = (bookId) => {
     navigate(`/${bookId}`);
@@ -68,14 +33,14 @@ const Home = () => {
     setCurrentPage(event.selected);
   };
 
-// Filtrer les livres en fonction du critère de recherche
-const filteredBooks = books.filter((book) => {
-  const fieldValue = book[searchFilter];
-  return (
-    typeof fieldValue === "string" &&
-    fieldValue.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-});
+  // Filtrer les livres en fonction du critère de recherche
+  const filteredBooks = books.filter((book) => {
+    const fieldValue = book[searchFilter];
+    return (
+      typeof fieldValue === "string" &&
+      fieldValue.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
 
   // Calcul des données pour la page actuelle
   const offset = currentPage * itemsPerPage;
