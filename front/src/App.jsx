@@ -42,7 +42,7 @@ const App = () => {
               element={<Profile handleAuth={handleAuth} />}
             />
             <Route path="/bookshelf" element={<Bookshelf auth={auth} />} />
-            <Route path="_id" element={<Book />} />
+            <Route path="/:_id" element={<Book />} />            
             <Route path="/create" element={<AddStudent />} />
             <Route path="/userlist" element={<UsersTable handleAuth={handleAuth} /> } /> 
           </Routes>
