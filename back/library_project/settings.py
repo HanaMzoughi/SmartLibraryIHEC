@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'library_api',
+    'corsheaders'
 ]
 
 # Define the middleware stack
@@ -42,6 +43,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    
 ]
 
 # Root URL configuration
@@ -82,10 +84,11 @@ client = pymongo.MongoClient(mongo_uri)
 db = client[db_name]
 
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOWED_ORIGINS = [
     os.getenv('CORS_ALLOWED_ORIGINS'),
+    "http://localhost:3000"
 ]
 
 # Password validation
@@ -118,3 +121,5 @@ STATIC_URL = 'static/'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+

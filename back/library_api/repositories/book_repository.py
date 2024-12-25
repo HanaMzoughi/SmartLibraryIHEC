@@ -8,7 +8,7 @@ class BookRepository:
         """
         self.client = client
         self.db = db
-        self.collection = self.db['biblio']
+        self.collection = self.db['livres']
 
     def create_book(self, book_data):
         """
@@ -46,19 +46,19 @@ class BookRepository:
         book_data = self.collection.find()
         return book_data
 
-    def update_book(self, _id, update_data):
-        """
-        Update a book entry in the database.
-
-        Args:
-            _id (str): The ID of the book to update.
-            update_data (dict): The data to update in the book document.
-
-        Returns:
-            pymongo.results.UpdateResult: The result of the update operation.
-        """
-        result = self.collection.update_one({'_id': ObjectId(_id)}, {'$set': update_data})
-        return result
+    def update_book(self, book_id, update_data):
+        try:
+            object_id = ObjectId(book_id)
+            # Utilisez $set pour mettre à jour uniquement les champs spécifiés
+            result = self.collection.update_one(
+                {"_id": object_id},
+                {"$set": update_data}
+            )
+            print(f"Mise à jour effectuée - modified_count: {result.modified_count}")
+            return result
+        except Exception as e:
+            print(f"Erreur lors de la mise à jour: {str(e)}")
+            raise
 
     def delete_book(self, _id):
         """
