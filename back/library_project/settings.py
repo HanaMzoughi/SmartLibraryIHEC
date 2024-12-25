@@ -1,4 +1,5 @@
 
+
 from pathlib import Path
 from dotenv import load_dotenv # type: ignore
 import pymongo # type: ignore
@@ -121,5 +122,4 @@ STATIC_URL = 'static/'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 

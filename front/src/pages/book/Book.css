@@ -18,17 +18,17 @@ body {
 } 
 /* Conteneur principal */
 .book-container {
-  max-width: 1000px; /* Réduire la taille max pour que le contenu soit plus compact */
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: #fff; /* Fond blanc pour la zone du contenu */
+  max-width: 2000px;
+  margin: -2rem auto; /* Utilise une marge négative pour remonter */
+  padding: 14rem;
+  background-color: #fff;
   font-family: 'Poppins', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  border-radius: 8px; /* Coins arrondis */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Phrase au-dessus du titre */

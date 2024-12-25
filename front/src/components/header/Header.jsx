@@ -61,7 +61,9 @@ const Header = ({ auth }) => {
 
   return (
     <div className="navigate-container">
-      <div className="header-logo">IHEC</div>
+      <div className="header-logo">
+      <img src="/logo.jpg" alt="IHEC Carthage Logo" className="logo-image" />
+      </div>
       <Link to="/" className="navigate-button">
         Home
       </Link>

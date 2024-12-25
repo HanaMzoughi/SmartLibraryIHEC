@@ -6,17 +6,26 @@
   height: 100vh;
   width: 12vw;
   position: fixed;
-  background-color: #11447b;
+  background-color: #141f57;
   align-items: center;
   gap: 3%;
-  border-radius: 0px 10px 10px 0px;
+  border-radius: 0px 0px 0px 0px;
 }
 
+
 .header-logo {
-  color: var(--secondary-text-color);
-  font-weight: bolder;
-  font-size: x-large;
-  padding-top: 15%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px; /* Ajustez selon votre design */
+  margin-top: 10px; /* Décale tout le conteneur du logo vers le bas */
+}
+
+.logo-image {
+  height: 160%; /* Adapte la hauteur de l'image */
+  max-height: 200px; /* Limite la taille maximale de l'image */
+  object-fit: contain; /* Garde les proportions de l'image */
+  margin-top: 18px; /* Décale légèrement l'image vers le bas */
 }
 
 .navigate-button {
@@ -27,9 +36,10 @@
   text-align: center;
   align-content: center;
   text-decoration: none;
-  color:#11447b;
+  color: #08325f;
   text-transform: uppercase;
   font-weight: bold;
+  margin-top: 20px; /* Espace entre le logo et les boutons */
 }
 
 .profile-button {

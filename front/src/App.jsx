@@ -9,8 +9,6 @@ import "./App.css";
 import Book from "./pages/book/Book";
 import UsersTable from "./pages/users/UsersTable";
 import AddStudent from "./pages/users/AddStudent";
-import ReservationsTable from "./pages/reservations/ReservationsTable";
-import CreateReservation from "./pages/reservations/CreateReservation";
 import Home_Admin from "./pages/home/Home_Admin";
 import Book_Admin from "./pages/book/Book_Admin";
 import AddBook from "./pages/book/AddBook";
@@ -46,10 +44,9 @@ function App() {
               path="/profile"
               element={<Profile handleAuth={handleAuth} />} />
             <Route path="/bookshelf" element={<Bookshelf auth={auth} />} />
-            <Route path="/:_id" element={<Book />} />            
-            <Route path="/reservations" element={<ReservationsTable />} />
-            <Route path="/create-reservation" element={<CreateReservation />} />
-            
+
+            <Route path="/:_id" element={<Book />} />
+
             <Route path="/create" element={<AddStudent />} />
             <Route
               path="/userlist"
