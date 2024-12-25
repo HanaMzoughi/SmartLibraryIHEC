@@ -102,7 +102,7 @@ const UsersTable = () => {
       <h1>Liste des utilisateurs</h1>
       
       {/* Bouton pour naviguer vers la page de création */}
-      <button onClick={() => navigate('/create')}>Ajouter étudiant</button>
+      <button className="button-add-user" onClick={() => navigate('/create')}>Ajouter utilisateur</button>
 
       {editMode ? (
         <div className="edit-form">
@@ -119,20 +119,31 @@ const UsersTable = () => {
             onChange={(e) => setCurrentUser({ ...currentUser, email: e.target.value })}
             placeholder="Email"
           />
-          <input
-            type="text"
-            value={currentUser.university}
-            onChange={(e) => setCurrentUser({ ...currentUser, university: e.target.value })}
-            placeholder="Université"
-          />
-          <input
-            type="text"
-            value={currentUser.speciality}
-            onChange={(e) => setCurrentUser({ ...currentUser, speciality: e.target.value })}
-            placeholder="Spécialité"
-          />
-          <button onClick={handleSaveEdit}>Sauvegarder</button>
-          <button onClick={handleCancelEdit}>Annuler</button>
+          
+          {/* Afficher "Université" et "Spécialité" seulement pour les étudiants */}
+          {currentUser.role !== 'bibliothécaire' && (
+            <>
+              <input
+                type="text"
+                value={currentUser.university}
+                onChange={(e) => setCurrentUser({ ...currentUser, university: e.target.value })}
+                placeholder="Université"
+              />
+              <input
+                type="text"
+                value={currentUser.speciality}
+                onChange={(e) => setCurrentUser({ ...currentUser, speciality: e.target.value })}
+                placeholder="Spécialité"
+              />
+            </>
+          )}
+
+          {/* Le rôle est affiché en mode lecture uniquement (non modifiable) */}
+          <p>Rôle: {currentUser.role}</p>
+
+          <button className="button-save" onClick={handleSaveEdit}>Sauvegarder</button>
+          <button className="button-cancel" onClick={handleCancelEdit}>Annuler</button>
+
         </div>
       ) : (
         <table className="users-table">
