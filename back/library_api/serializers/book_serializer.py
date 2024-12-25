@@ -17,9 +17,8 @@ class BookSerializer:
             'BIBID': book_data.get('BIBID', ''),
             'ITEMID': book_data.get('ITEMID', ''),
             'Code_barre': book_data.get('Code_barre', ''),
-            'D_Object': book_data.get('D_Object', ''),
-            'CREATION': book_data.get('CREATION', ''),
-            'MODIF': book_data.get('MODIF', ''),
+            'D_CREATION': book_data.get('CREATION', ''),
+            'D_MODIF': book_data.get('MODIF', ''),
             'Cote': book_data.get('Cote', ''),
             'Inventaire': book_data.get('Inventaire', ''),
             'epn': book_data.get('epn', ''),
@@ -36,5 +35,6 @@ class BookSerializer:
             'Date_edition': book_data.get('Date_edition', ''),
             'Editeur': book_data.get('Editeur', ''),
             'Prix': book_data.get('Prix', ''),
+            'Etas':book_data.get('Etas', '')
         }
         return serialized_book

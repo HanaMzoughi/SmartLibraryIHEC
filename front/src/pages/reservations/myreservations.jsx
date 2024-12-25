@@ -3,32 +3,56 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './ReservationsTable.css';
 
-const ReservationsTable = () => {
+const MyReservations = () => {
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [userIdFromToken, setUserIdFromToken] = useState(null);
   const [editMode, setEditMode] = useState(false);
-  const [currentReservation, setCurrentReservation] = useState({
-    student: '',
-    book: '',
-    date_reservation: '',
-    duration: '',
-    status: '',
-    id: ''
-  });
+  const [currentReservation, setCurrentReservation] = useState(null);
   const navigate = useNavigate();
 
-  const fetchUserDetails = async (studentId) => {
+  const decodeToken = (token) => {
     try {
-      const response = await axios.get(`http://localhost:8000/user/${studentId}/`, {
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      return payload._id;
+    } catch (error) {
+      console.error("Erreur lors du décodage du token:", error);
+      return null;
+    }
+  };
+
+  const fetchReservations = async (userId) => {
+    try {
+      const response = await axios.get('http://localhost:8000/reservations/all', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
-      return response.data.username;
+
+      const filteredReservations = response.data.filter(reservation => reservation.student_id === userId);
+
+      const updatedReservations = await Promise.all(filteredReservations.map(async (reservation) => {
+        const bookTitle = await fetchBookDetails(reservation.book_id);
+
+        const currentDate = new Date();
+        const endDate = new Date(reservation.date_fin_reservation);
+        if (endDate < currentDate && reservation.status !== 'terminé') {
+          await updateReservationStatus(reservation.id, 'terminé');
+          reservation.status = 'terminé';
+        }
+
+        return {
+          ...reservation,
+          book: bookTitle,
+        };
+      }));
+
+      setReservations(updatedReservations);
     } catch (error) {
-      console.error('Erreur lors de la récupération de l\'utilisateur', error);
-      return 'Étudiant non trouvé';
+      setError('Erreur lors du chargement des réservations');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -43,6 +67,33 @@ const ReservationsTable = () => {
     } catch (error) {
       console.error('Erreur lors de la récupération du livre', error);
       return 'Livre non trouvé';
+    }
+  };
+
+  const updateReservationStatus = async (reservationId, status) => {
+    try {
+      await axios.put(`http://localhost:8000/reservation/${reservationId}/update/`, { status }, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du statut de la réservation', error);
+    }
+  };
+
+  const handleDelete = async (reservationId) => {
+    if (window.confirm("Êtes-vous sûr de vouloir supprimer cette réservation ?")) {
+      try {
+        await axios.delete(`http://localhost:8000/reservation/${reservationId}/delete/`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        setReservations(reservations.filter(reservation => reservation.id !== reservationId));
+      } catch (error) {
+        setError('Erreur lors de la suppression de la réservation');
+      }
     }
   };
 
@@ -65,47 +116,17 @@ const ReservationsTable = () => {
     setEditMode(true);
   };
 
-  const handleDelete = async (reservationId) => {
-    try {
-      await axios.delete(`http://localhost:8000/reservation/${reservationId}/delete/`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-      setReservations(reservations.filter(reservation => reservation.id !== reservationId));
-    } catch (error) {
-      setError('Erreur lors de la suppression de la réservation');
-    }
-  };
-
-  const handleCancelEdit = () => {
-    setEditMode(false);
-    setCurrentReservation({
-      student: '',
-      book: '',
-      date_reservation: '',
-      duration: '',
-      status: '',
-      id: ''
-    });
-  };
-
   const handleSaveEdit = async () => {
-    const updatedDuration = currentReservation.duration;
-    const updatedStatus = currentReservation.status;
-
-    // Vérifier si les champs ont été modifiés
-    const originalReservation = reservations.find(reservation => reservation.id === currentReservation.id);
-
-    if (originalReservation.duration === updatedDuration && originalReservation.status === updatedStatus) {
-      // Si aucune modification, ne rien faire
-      setEditMode(false);
+    if (!currentReservation) {
+      setError("Aucune réservation à mettre à jour");
       return;
     }
 
-    // Vérification de la durée
+    const updatedDuration = currentReservation.duration;
+    const updatedStatus = currentReservation.status;
+
     if (!updatedDuration || !updatedDuration.match(/^\d+ (hours|days)$/)) {
-      alert('Veuillez entrer une durée valide sous la forme "X hours" ou "X days".');
+      setError('Veuillez entrer une durée valide sous la forme "X hours" ou "X days".');
       return;
     }
 
@@ -120,71 +141,32 @@ const ReservationsTable = () => {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
-
-      // Mettre à jour la liste des réservations
       setReservations(reservations.map(reservation =>
         reservation.id === currentReservation.id ? { ...reservation, ...updatedReservation } : reservation
       ));
-
       setEditMode(false);
-      setCurrentReservation({
-        student: '',
-        book: '',
-        date_reservation: '',
-        duration: '',
-        status: '',
-        id: ''
-      });
     } catch (error) {
-      setError('Erreur lors de la mise à jour de la réservation');
+      setError("Erreur lors de la mise à jour de la réservation");
     }
   };
 
+  const handleCancelEdit = () => {
+    setEditMode(false);
+    setCurrentReservation(null);
+  };
+
   useEffect(() => {
-    const fetchReservations = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/reservations/all', {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
+    const token = localStorage.getItem('token');
+    if (token) {
+      const userId = decodeToken(token);
+      setUserIdFromToken(userId);
 
-        const updatedReservations = await Promise.all(response.data.map(async (reservation) => {
-          const studentName = await fetchUserDetails(reservation.student_id);
-          const bookTitle = await fetchBookDetails(reservation.book_id);
-
-          // Vérification de la date de fin et mise à jour du statut
-          const currentDate = new Date();
-          const reservationEndDate = new Date(reservation.date_fin_reservation);
-
-          if (reservationEndDate < currentDate && reservation.status !== 'terminé') {
-            reservation.status = 'terminé';
-            // Mise à jour du statut dans la base de données
-            await axios.put(`http://localhost:8000/reservation/${reservation.id}/update/`, {
-              status: 'terminé',
-            }, {
-              headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
-              },
-            });
-          }
-
-          return {
-            ...reservation,
-            student: studentName,
-            book: bookTitle,
-          };
-        }));
-
-        setReservations(updatedReservations);
-      } catch (error) {
-        setError('Erreur lors du chargement des réservations');
-      } finally {
-        setLoading(false);
+      if (userId) {
+        fetchReservations(userId);
       }
-    };
-
-    fetchReservations();
+    } else {
+      setLoading(false);
+    }
   }, []);
 
   const formatDate = (dateString) => {
@@ -199,8 +181,6 @@ const ReservationsTable = () => {
   return (
     <div className="reservations-table-container">
       <h1>Liste des réservations</h1>
-
-      <button className="add-btn2" onClick={() => navigate('/create-reservation')}>Ajouter réservation</button>
 
       {editMode ? (
         <div className="edit-form">
@@ -225,7 +205,6 @@ const ReservationsTable = () => {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Nom de l'étudiant</th>
               <th>Titre du livre</th>
               <th>Date de réservation</th>
               <th>Durée</th>
@@ -238,7 +217,6 @@ const ReservationsTable = () => {
             {reservations.map((reservation) => (
               <tr key={reservation.id}>
                 <td>{reservation.id}</td>
-                <td>{reservation.student}</td>
                 <td>{reservation.book}</td>
                 <td>{formatDate(reservation.date_reservation)}</td>
                 <td>{reservation.duration}</td>
@@ -257,4 +235,4 @@ const ReservationsTable = () => {
   );
 };
 
-export default ReservationsTable;
+export default MyReservations;
