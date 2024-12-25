@@ -6,6 +6,7 @@ import "./Header.css";
 const Header = ({ auth }) => {
   const [isAdmin, setIsAdmin] = useState(false); // Vérifie si l'utilisateur est admin
   const [isLibrarian, setIsLibrarian] = useState(false); // Vérifie si l'utilisateur est bibliothécaire
+  const [isStudent, setIsStudent] = useState(false); // Vérifie si l'utilisateur est étudiant
   const [loading, setLoading] = useState(true); // Gère l'état de chargement
   const [error, setError] = useState(null); // Gère les erreurs lors de la récupération des données
   const location = useLocation();
@@ -47,6 +48,7 @@ const Header = ({ auth }) => {
       // Vérifie les rôles
       setIsAdmin(response.data.role === "admin");
       setIsLibrarian(response.data.role === "bibliothécaire");
+      setIsStudent(response.data.role === "étudiant"); // Vérification si l'utilisateur est étudiant
       setLoading(false);
     } catch (error) {
       console.error("Error fetching user info:", error);
@@ -65,26 +67,39 @@ const Header = ({ auth }) => {
       <img src="/log.jpg" alt="IHEC Carthage Logo" className="logo-image" />
       </div>
       <Link to="/" className="navigate-button">
-        Home
+        Acceuil
       </Link>
       {isAdmin && (
-        <Link to="/userlist" className="navigate-button">
-          User List
-        </Link>
+        <>
+          <Link to="/userlist" className="navigate-button">
+            Liste des utilisateurs
+          </Link>
+          <Link to="/admin" className="navigate-button">
+            Admin
+          </Link>
+          <Link to="/addbook" className="navigate-button">
+            Ajouter livre
+          </Link>
+        </>
       )}
-      <Link to="/bookshelf" className="navigate-button">
-        Bookshelf
-      </Link>
+
       {isLibrarian && (
         <Link to="/reservations" className="navigate-button">
           Reservations
         </Link>
       )}
+
+      {isStudent && (
+        <Link to="/myreservations" className="navigate-button">
+          Mes réservations
+        </Link>
+      )}
+
       <Link
         to={auth ? "/profile" : "/login-register"}
         className="navigate-button profile-button"
       >
-        {auth ? "Profile" : "Sign In"}
+        {auth ? "Profile" : "Login"}
       </Link>
     </div>
   );

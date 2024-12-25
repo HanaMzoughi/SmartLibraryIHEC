@@ -131,7 +131,7 @@ def update_reservation(request, reservation_id):
 
     Paramètres du corps :
     - status: str (optionnel)  # Par exemple "completed", "pending", ou "in_progress"
-    - duration: int (optionnel)  # Durée de la réservation
+    - duration: str (optionnel)  # Durée de la réservation sous forme de chaîne (ex: "2 hours", "3 days")
 
     Retourne :
     - 200: Réservation mise à jour avec succès
@@ -162,10 +162,14 @@ def update_reservation(request, reservation_id):
 
             # Préparer les champs à mettre à jour
             update_fields = {}
+
             if status:
                 update_fields['status'] = status
-            if duration is not None:  # Permet de traiter la valeur 0
+            if duration:  # Si la durée est modifiée, on met à jour la date de fin
                 update_fields['duration'] = duration
+                # Calculer la nouvelle date de fin en fonction de la nouvelle durée
+                new_end_date = reservation_repo.calculate_end_date(duration)
+                update_fields['date_fin_reservation'] = new_end_date
 
             # Mise à jour de la réservation
             result = reservation_repo.update_reservation(reservation_id, update_fields)
@@ -187,6 +191,7 @@ def update_reservation(request, reservation_id):
             return JsonResponse({'error': f'Une erreur est survenue : {str(e)}'}, status=500)
 
     return JsonResponse({'error': 'Méthode HTTP invalide'}, status=405)
+
 
 
 
