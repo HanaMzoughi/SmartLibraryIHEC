@@ -22,7 +22,7 @@
 }
 
 .logo-image {
-  height: 160%; /* Adapte la hauteur de l'image */
+  height: 200%; /* Adapte la hauteur de l'image */
   max-height: 200px; /* Limite la taille maximale de l'image */
   object-fit: contain; /* Garde les proportions de l'image */
   margin-top: 18px; /* Décale légèrement l'image vers le bas */
