@@ -197,11 +197,11 @@ const Book = () => {
             <h2>Prix :</h2>
             <p>{book.Prix}</p>
           </div>
-          <div>
+          <div className="book-info-item">
             <h2>Editeur :</h2>
             <p>{book.Editeur}</p>
           </div>
-          <div>
+          <div className="book-info-item">
             <h2>Date édition :</h2>
             <p>{book.Date_edition}</p>
           </div>

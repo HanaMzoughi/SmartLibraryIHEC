@@ -100,17 +100,19 @@ const UsersTable = () => {
   return (
     <div className="users-table-container">
       <h1>Liste des utilisateurs</h1>
-      
-      {/* Bouton pour naviguer vers la page de création */}
-      <button className="button-add-user" onClick={() => navigate('/create')}>Ajouter utilisateur</button>
-
+  
+      {/* Bouton pour naviguer vers la page de création, masqué en mode édition */}
+      {!editMode && (
+        <button className="button-add-user" onClick={() => navigate('/create')}>Ajouter utilisateur</button>
+      )}
+  
       {editMode ? (
         <div className="edit-form">
           <h2>Modifier l'utilisateur</h2>
           <input
             type="text"
-            value={currentUser.username} // Affichage du username dans l'input
-            onChange={(e) => setCurrentUser({ ...currentUser, username: e.target.value })} // Mise à jour du username
+            value={currentUser.username}
+            onChange={(e) => setCurrentUser({ ...currentUser, username: e.target.value })}
             placeholder="Nom d'utilisateur"
           />
           <input
@@ -119,8 +121,6 @@ const UsersTable = () => {
             onChange={(e) => setCurrentUser({ ...currentUser, email: e.target.value })}
             placeholder="Email"
           />
-          
-          {/* Afficher "Université" et "Spécialité" seulement pour les étudiants */}
           {currentUser.role !== 'bibliothécaire' && (
             <>
               <input
@@ -137,13 +137,9 @@ const UsersTable = () => {
               />
             </>
           )}
-
-          {/* Le rôle est affiché en mode lecture uniquement (non modifiable) */}
           <p>Rôle: {currentUser.role}</p>
-
           <button className="button-save" onClick={handleSaveEdit}>Sauvegarder</button>
           <button className="button-cancel" onClick={handleCancelEdit}>Annuler</button>
-
         </div>
       ) : (
         <table className="users-table">
@@ -153,8 +149,8 @@ const UsersTable = () => {
               <th>Email</th>
               <th>Université</th>
               <th>Spécialité</th>
-              <th>Rôle</th> {/* Nouvelle colonne pour le rôle */}
-              <th>Actions</th> {/* Ajout d'une colonne pour les actions */}
+              <th>Rôle</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -162,11 +158,10 @@ const UsersTable = () => {
               <tr key={user._id}>
                 <td>{user.username}</td>
                 <td>{user.email}</td>
-                <td>{user.role !== 'bibliothécaire' ? user.university : '-'}</td> {/* Affiche "-" pour bibliothécaire */}
-                <td>{user.role !== 'bibliothécaire' ? user.speciality : '-'}</td> {/* Affiche "-" pour bibliothécaire */}
-                <td>{user.role}</td> {/* Affichage du rôle */}
+                <td>{user.role !== 'bibliothécaire' ? user.university : '-'}</td>
+                <td>{user.role !== 'bibliothécaire' ? user.speciality : '-'}</td>
+                <td>{user.role}</td>
                 <td>
-                  {/* Boutons d'action */}
                   <button className="button-edit" onClick={() => handleEdit(user._id)}>Modifier</button>
                   <button className="button-delete" onClick={() => handleDelete(user._id)}>Supprimer</button>
                 </td>
@@ -177,6 +172,7 @@ const UsersTable = () => {
       )}
     </div>
   );
+  
 };
 
 export default UsersTable;

@@ -64,7 +64,7 @@ const Header = ({ auth }) => {
   return (
     <div className="navigate-container">
       <div className="header-logo">
-      <img src="/log.jpg" alt="IHEC Carthage Logo" className="logo-image" />
+      <img src="/log.png" alt="IHEC Carthage Logo" className="logo-image" />
       </div>
       <Link to="/" className="navigate-button">
         Acceuil
@@ -75,7 +75,7 @@ const Header = ({ auth }) => {
             Liste des utilisateurs
           </Link>
           <Link to="/admin" className="navigate-button">
-            Admin
+            Gérer livre
           </Link>
           <Link to="/addbook" className="navigate-button">
             Ajouter livre

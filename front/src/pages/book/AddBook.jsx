@@ -1,31 +1,19 @@
 import React, { useState } from "react";
+import "./AddBook.css";
 
 const AddBook = () => {
   const [newBook, setNewBook] = useState({
-    N: "",
-    BIBID: "",
-    ITEMID: "",
-    Code_barre: "",
-    D_Object: "",
-    D_CREATION: "",
-    D_MODIF: "",
-    Cote: "",
-    Inventaire: "",
-    epn: "",
     Titre: "",
     Auteur: "",
-    Locale: "",
-    Staff_Note: "",
-    Public_Note: "",
+    BIBID: "",
+    Cote: "",
+    Editeur: "",
+    epn: "",
+    Specialite: "",
+    Inventaire: "",
     ISBN_A: "",
     ISBN_Z: "",
-    Item_class: "",
-    Specialite: "",
-    Nb_Page: "",
-    Date_edition: "",
-    Editeur: "",
-    Prix: "",
-    Etas: "Disponible",
+    Code_barre: "",
   });
 
   const [isAdding, setIsAdding] = useState(false);
@@ -36,7 +24,6 @@ const AddBook = () => {
     setError(null);
     setIsAdding(true);
 
-    // Validation des champs obligatoires
     if (!newBook.Titre || !newBook.Auteur) {
       setError("Champs obligatoires manquants : Titre ou Auteur.");
       setIsAdding(false);
@@ -46,42 +33,24 @@ const AddBook = () => {
     try {
       const response = await fetch("http://localhost:8000/publish/", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-         
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newBook),
       });
 
       if (response.ok) {
-        const addedBook = await response.json();
         alert("Livre ajouté avec succès !");
-        // Réinitialisation des champs après succès
         setNewBook({
-          N: "",
-          BIBID: "",
-          ITEMID: "",
-          Code_barre: "",
-          D_Object: "",
-          D_CREATION: "",
-          D_MODIF: "",
-          Cote: "",
-          Inventaire: "",
-          epn: "",
           Titre: "",
           Auteur: "",
-          Locale: "",
-          Staff_Note: "",
-          Public_Note: "",
+          BIBID: "",
+          Cote: "",
+          Editeur: "",
+          epn: "",
+          Specialite: "",
+          Inventaire: "",
           ISBN_A: "",
           ISBN_Z: "",
-          Item_class: "",
-          Specialite: "",
-          Nb_Page: "",
-          Date_edition: "",
-          Editeur: "",
-          Prix: "",
-          Etas: "Disponible",
+          Code_barre: "",
         });
       } else {
         const errorData = await response.json();
@@ -95,7 +64,7 @@ const AddBook = () => {
   };
 
   return (
-    <div>
+    <div className="add-book-container">
       <h2>Ajouter un livre</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleAddBook}>

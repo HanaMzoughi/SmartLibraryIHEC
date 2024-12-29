@@ -5,7 +5,7 @@
   height: 100vh;
   width: 100vw;
   margin-left: -12vw;
-  background-color: var(--primary-color);
+  background-color: #141f57;
   justify-content: center;
 }
 
@@ -93,7 +93,7 @@
 }
 
 .button-login {
-  background-color: blue; /* Fond bleu pour "Connexion" */
+  background-color: #141f57; /* Fond bleu pour "Connexion" */
 }
 
 .button-login:hover {

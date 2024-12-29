@@ -99,7 +99,6 @@ export default function LoginRegister({ handleAuth }) {
       <div className="login-register-container">
         <div className="login-register-logo">
           <img src={logo} alt="Logo IHEC" />
-          IHEC
         </div>
         <div className="login-register-inputs">
           {login ? (

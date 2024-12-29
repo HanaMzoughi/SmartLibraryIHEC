@@ -200,7 +200,6 @@ const ReservationsTable = () => {
     <div className="reservations-table-container">
       <h1>Liste des réservations</h1>
 
-      <button className="add-btn2" onClick={() => navigate('/create-reservation')}>Ajouter réservation</button>
 
       {editMode ? (
         <div className="edit-form">
@@ -224,7 +223,6 @@ const ReservationsTable = () => {
         <table className="reservations-table">
           <thead>
             <tr>
-              <th>ID</th>
               <th>Nom de l'étudiant</th>
               <th>Titre du livre</th>
               <th>Date de réservation</th>
@@ -237,7 +235,6 @@ const ReservationsTable = () => {
           <tbody>
             {reservations.map((reservation) => (
               <tr key={reservation.id}>
-                <td>{reservation.id}</td>
                 <td>{reservation.student}</td>
                 <td>{reservation.book}</td>
                 <td>{formatDate(reservation.date_reservation)}</td>

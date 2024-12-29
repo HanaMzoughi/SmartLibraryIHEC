@@ -1,0 +1,105 @@
+:root {
+  --primary-color: #00509e; /* Bleu foncé pour les boutons et le titre */
+  --secondary-color: #e6f0ff; /* Bleu clair pour les champs de texte */
+  --background-color: #f9fafb; /* Fond général */
+  --button-hover-color: #003366; /* Couleur au survol des boutons */
+  --text-color: #333333; /* Couleur du texte */
+  --border-radius: 8px; /* Coins arrondis */
+}
+
+body {
+  background-color: var(--background-color);
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.add-book-container {
+  max-width: 1000px;
+  width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: var(--secondary-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-left: 100px;
+  height: 800px;
+  margin-left: 350px;
+}
+
+
+/* Titre */
+.add-book-container h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: var(--primary-color);
+}
+
+/* Champs de formulaire */
+.add-book-container input,
+.add-book-container select,
+.add-book-container textarea {
+  width: 100%;
+  padding: 0.8rem;
+  margin: 0.5rem 0;
+  border: 1px solid #d1d9e6;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  color: var(--text-color);
+  background-color: #fff;
+  transition: border-color 0.3s;
+}
+
+.add-book-container input:focus,
+.add-book-container select:focus,
+.add-book-container textarea:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 80, 158, 0.3);
+}
+
+/* Boutons */
+.add-book-container button {
+  width: 100%;
+  padding: 0.8rem;
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  background: var(--primary-color);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.add-book-container button:hover {
+  background: var(--button-hover-color);
+  transform: scale(1.02);
+}
+
+/* Bouton Annuler */
+.add-book-container button.cancel {
+  background-color: #c70525; /* Gris pour le bouton Annuler */
+}
+
+.add-book-container button.cancel:hover {
+  background-color: #c70525;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .add-book-container {
+    padding: 1.5rem;
+  }
+
+  .add-book-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .add-book-container input,
+  .add-book-container button {
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,112 @@
+/* BookAdmin.css */
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+}
+
+.book-admin-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.book-admin-form h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.book-detail-overlay {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.book-detail-input {
+  flex: 1 1 calc(50% - 20px);
+  display: flex;
+  flex-direction: column;
+}
+
+.book-detail-input label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.book-detail-input input, .book-detail-input select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.book-detail-input input:focus, .book-detail-input select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+button {
+  padding: 10px 15px;
+  font-size: 16px;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  filter: brightness(90%);
+}
+
+.update-button {
+  background-color: #064c97;
+}
+
+.update-button:disabled {
+  background-color: #032c50;
+}
+
+.update-button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.delete-button {
+  background-color: #dc3545;
+}
+
+.delete-button:disabled {
+  background-color: #a71d2a;
+}
+
+.delete-button:hover:not(:disabled) {
+  background-color: #c82333;
+}
+
+.delete-button-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.error-message {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  text-align: center;
+}
+

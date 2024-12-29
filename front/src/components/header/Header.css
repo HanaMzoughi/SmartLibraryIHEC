@@ -12,20 +12,26 @@
   border-radius: 0px 0px 0px 0px;
 }
 
-
 .header-logo {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 60px; /* Ajustez selon votre design */
-  margin-top: 10px; /* Décale tout le conteneur du logo vers le bas */
+  height: 100px; /* Augmente la hauteur pour s'adapter au logo */
+  margin-top: 10px; /* Décale légèrement vers le bas si nécessaire */
 }
 
 .logo-image {
-  height: 200%; /* Adapte la hauteur de l'image */
-  max-height: 200px; /* Limite la taille maximale de l'image */
-  object-fit: contain; /* Garde les proportions de l'image */
-  margin-top: 18px; /* Décale légèrement l'image vers le bas */
+  height: 120%; /* Agrandit la hauteur de l'image */
+  max-height: 800px; /* Limite la taille maximale du logo */
+  width: auto; /* Maintient les proportions */
+  object-fit: contain; /* Garde les proportions intactes */
+  margin-top: 10px; /* Ajustez pour centrer davantage */
+  transform: scale(1.2); /* Effet d'agrandissement permanent */
+  transition: transform 0.3s ease; /* Animation fluide pour l'effet de zoom */
+}
+
+.logo-image:hover {
+  transform: scale(1.3); /* Zoom au survol (agrandit de 30%) */
 }
 
 .navigate-button {
@@ -37,7 +43,6 @@
   align-content: center;
   text-decoration: none;
   color: #08325f;
-  text-transform: uppercase;
   font-weight: bold;
   margin-top: 20px; /* Espace entre le logo et les boutons */
 }
