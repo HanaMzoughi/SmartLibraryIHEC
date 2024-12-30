@@ -5,6 +5,7 @@ import TextInput from "../../components/textInput/TextInput";
 import Popup from "../../components/popup/Popup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import logo from './logo.jpg';
 
 export default function LoginRegister({ handleAuth }) {
   const [login, setLogin] = useState(true);
@@ -93,7 +94,9 @@ export default function LoginRegister({ handleAuth }) {
   return (
     <div className="login-screen">
       <div className="login-register-container">
-        <div className="login-register-logo">IHEC</div>
+        <div className="login-register-logo">
+          <img src={logo} alt="Logo IHEC" />
+        </div>
         <div className="login-register-inputs">
           {login ? (
             <>
@@ -119,8 +122,12 @@ export default function LoginRegister({ handleAuth }) {
                 Pas de compte ?
               </div>
               <div className="row">
-                <Button dark={false} text={"Annuler"} onClick={() => navigate(-1)} />
-                <Button dark={true} text={"Connexion"} onClick={handleLogin} />
+                <button className="button button-cancel" onClick={() => navigate(-1)}>
+                  Annuler
+                </button>
+                <button className="button button-login" onClick={handleLogin}>
+                  Connexion
+                </button>
               </div>
             </>
           ) : (
@@ -151,7 +158,6 @@ export default function LoginRegister({ handleAuth }) {
               >
                 <option value="étudiant">Étudiant</option>
                 <option value="bibliothécaire">Bibliothécaire</option>
-                
               </select>
               {role === "étudiant" && (
                 <>
@@ -173,14 +179,20 @@ export default function LoginRegister({ handleAuth }) {
                 Déjà un compte ?
               </div>
               <div className="row">
-                <Button dark={false} text={"Annuler"} onClick={() => navigate(-1)} />
-                <Button dark={true} text={"Inscription"} onClick={handleRegister} />
+                <button className="button button-cancel" onClick={() => navigate(-1)}>
+                  Annuler
+                </button>
+                <button className="button button-login" onClick={handleRegister}>
+                  Inscription
+                </button>
               </div>
             </>
           )}
         </div>
       </div>
-      <Popup message={popupMessage} type={popupType} onClose={handleClosePopup} />
+      {popupMessage && (
+        <Popup message={popupMessage} type={popupType} onClose={handleClosePopup} />
+      )}
     </div>
-  );
+  );  
 }

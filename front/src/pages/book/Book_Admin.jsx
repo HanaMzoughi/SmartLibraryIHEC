@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import "./BookAdmin.css";
 
 
 const Book_Admin = () => {
@@ -248,13 +249,13 @@ const Book_Admin = () => {
               <option value="Non disponible">Non disponible</option>
             </select>
           </div>
-          <button type="submit" disabled={isUpdating}>
+          <button className="up_button" type="submit" disabled={isUpdating}>
             {isUpdating ? "Mise à jour en cours..." : "Mettre à jour"}
           </button>
         </div>
       </form>
       <div>
-        <button onClick={() => handleDelete(book.N)}>Supprimer</button>
+        <button className="supp_button" onClick={() => handleDelete(book.N)}>Supprimer</button>
       </div>
       {error && <div style={{ color: "red" }}>Erreur : {error}</div>}
     </div>

@@ -15,6 +15,9 @@ import Home_Admin from "./pages/home/Home_Admin";
 import Book_Admin from "./pages/book/Book_Admin";
 import AddBook from "./pages/book/AddBook";
 import MyReservations from "./pages/reservations/myreservations";
+import Dashboard from "./pages/charts/simplebar";
+import StudentDashboard from "./pages/charts/studentchart";
+import ReservationStats from "./pages/charts/reservationchart";
 const App = () => {
   const [auth, setAuth] = useState("");
 
@@ -55,6 +58,10 @@ const App = () => {
             <Route path="/AddBook" element={<AddBook />} />
             <Route path="/myreservations" element={<MyReservations/>} />
             <Route path="/create" element={<AddStudent />} />
+            <Route path="/chart" element={<Dashboard />} />
+            <Route path="/chartuser" element={<StudentDashboard />} />
+            <Route path="/chartreservation" element={<ReservationStats />} />
+            
             <Route path="/userlist" element={<UsersTable handleAuth={handleAuth} /> } /> 
           </Routes>
         </div>

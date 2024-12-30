@@ -157,7 +157,7 @@ export default function Profile({ handleAuth }) {
           <div className="profile-hello">
             <p>Hello, {user.username}!</p>
             <p className="profile-email">{user.email}</p>
-            <Button dark={false} onClick={handleLogout} text={"Logout"} />
+            <Button className="button-profile" dark={false} onClick={handleLogout} text={"Logout"} />
           </div>
           {user.role === "étudiant" && (
             <div className="student-info">
@@ -166,7 +166,6 @@ export default function Profile({ handleAuth }) {
             </div>
           )}
           <div className="profile-inputs">
-            <p className="logo">IHEC</p>
             <div className="column profile-update">
               <p>Update your profile</p>
               <TextInput

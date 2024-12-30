@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ReactPaginate from "react-paginate";
-import "./Home.css";
+import "./Home_Admin.css";
 
 const Home_Admin = () => {
   const [books, setBooks] = useState([]);

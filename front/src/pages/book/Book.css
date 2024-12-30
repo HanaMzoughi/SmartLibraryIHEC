@@ -1,41 +1,139 @@
-.book-detail-overlay {
+:root {
+  --ihec-primary: #003366; /* Bleu principal */
+  --ihec-secondary: #f8f9fa; /* Gris clair */
+  --ihec-accent: #00509e; /* Accent plus clair */
+  --text-dark: #333333;
+  --text-light: #ffffff;
+  --border-color: #dee2e6;
+  --gradient-primary: linear-gradient(90deg, #003366 0%, #00509e 100%);
+  --light-blue: #e6f0ff; /* Couleur bleu clair pour le fond des cases */
+}
+/* Ajout pour appliquer le background à toute la page */
+body {
+  background-color: var(--ihec-secondary); /* Gris clair */
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+} 
+/* Conteneur principal */
+.book-container {
+  max-width: 2000px;
+  margin: -2rem auto; /* Utilise une marge négative pour remonter */
+  padding: 14rem;
+  background-color: #fff;
+  font-family: 'Poppins', sans-serif;
   display: flex;
-  flex-direction: row;
-  height: 100vh;
-  width: 88vw;
-  gap: 5%;
   justify-content: center;
   align-items: center;
-  padding-inline: 10%;
-}
-
-.book-detail {
-  display: flex;
-  flex-direction: column;
-  background: #eee;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
-  padding: 5%;
+  min-height: 100vh;
   border-radius: 8px;
-  height: 75vh;
-  width: 25vw;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Phrase au-dessus du titre */
+.book-details-heading {
   text-align: center;
-  justify-content: space-between;
+  color: var(--ihec-primary);
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
 }
 
+/* Titre principal */
+.book-title {
+  color: var(--ihec-primary);
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Détails du livre */
+.book-detail-overlay {
+  display: grid;
+  gap: 2rem;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 800px;
+  max-width: 2000px;
+  margin: 0 auto;
+  text-align: left;
+  margin-left: 200px;
+}
+
+/* Informations du livre */
 .book-info {
-  display: flex;
-  flex-direction: column;
-  min-width: 300px;
-  max-width: 600px;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr; /* Une colonne */
+  gap: 1.5rem;
 }
 
-.book-info p {
-  margin-left: 15px;
+.book-info-item {
+  background-color: var(--light-blue); /* Fond bleu clair pour chaque case */
+  padding: 1rem;
+  border-radius: 6px;
+  border-left: 4px solid var(--ihec-primary);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.book-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.book-info-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.book-info-item h2 {
+  color: var(--ihec-primary);
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.book-info-item p {
+  color: var(--text-dark);
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+/* Messages d'état */
+.loading-message,
+.error-message {
+  text-align: center;
+  padding: 2rem;
+  border-radius: 6px;
+  margin: 1rem 0;
+  font-weight: bold;
+}
+
+.loading-message {
+  color: var(--ihec-primary);
+}
+
+.error-message {
+  color: #dc3545;
+  background-color: #fff5f5;
+  border: 1px solid #dc3545;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .book-detail-overlay {
+    padding: 1rem;
+  }
+
+  .book-info {
+    grid-template-columns: 1fr;
+  }
+
+  .book-title {
+    font-size: 2rem;
+  }
+
+  .book-info-item {
+    padding: 1rem;
+  }
 }

@@ -1,101 +1,130 @@
 /* Conteneur principal */
 .add-student-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 20px auto;
-    max-width: 500px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+  max-width: 1000px;
+  padding: 100px;
+  background-color: #ffffff; /* Fond gris clair */
+  border-radius: 8px; /* Arrondi des coins */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+  font-family: 'Arial', sans-serif; /* Police moderne et simple */
+ /* Permet de placer le titre en haut */
+  text-align: center; /* Centrer le texte horizontalement */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Titre principal */
+.add-student-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  color: white; /* Titre en blanc */
+  background-color: #457b9d; /* Fond bleu */
+  padding: 10px; /* Optionnel, pour ajouter de l'espace autour du texte */
+  border-radius: 8px; /* Optionnel, pour arrondir les coins du fond */
   }
-  
-  /* Titre principal */
-  .add-student-container h1 {
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  /* Messages d'erreur et de succès */
-  .error-message {
-    color: #ff4d4d;
-    background-color: #ffe6e6;
-    border: 1px solid #ffcccc;
-    padding: 10px;
-    border-radius: 4px;
-    margin-bottom: 15px;
-    text-align: center;
-  }
-  
-  .success-message {
-    color: #4caf50;
-    background-color: #e8f5e9;
-    border: 1px solid #a5d6a7;
-    padding: 10px;
-    border-radius: 4px;
-    margin-bottom: 15px;
-    text-align: center;
-  }
-  
-  /* Formulaire */
-  .add-student-form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-  
-  /* Champs du formulaire */
-  .add-student-form input {
-    margin-bottom: 15px;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  .add-student-form input:focus {
-    border-color: #4caf50;
-    outline: none;
-    box-shadow: 0 0 4px rgba(76, 175, 80, 0.3);
-  }
-  
-  /* Boutons */
-  .add-student-form button {
-    margin-top: 10px;
-    padding: 12px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .add-student-form button[type="submit"] {
-    background-color: #4caf50;
-    color: white;
-  }
-  
-  .add-student-form button[type="submit"]:hover {
-    background-color: #45a049;
-  }
-  
-  .add-student-form button[type="button"] {
-    background-color: #f44336;
-    color: white;
-  }
-  
-  .add-student-form button[type="button"]:hover {
-    background-color: #e53935;
-  }
-  
-  /* Boutons désactivés */
-  .add-student-form button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
+
+
+/* Messages d'erreur et de succès */
+.error-message {
+  color: #dd0c0c; /* Rouge */
+  background-color: #ffe6e6; /* Rouge clair */
+  border: 1px solid #ffcccc;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.success-message {
+  color: #4c5eaf; /* Bleu */
+  background-color: #e8f5e9; /* Vert clair */
+  border: 1px solid #a5d6a7;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Formulaire */
+.add-student-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Augmente légèrement l'espacement entre les éléments */
+  max-width: 700px; /* Augmente la largeur maximale */
+  margin: 0 auto; /* Centre horizontalement */
+  padding: 2.5rem; /* Augmente l'espace intérieur */
+  border-radius: 10px; /* Coins arrondis */
+  background-color: #f7faf2; /* Fond bleu très clair */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Ombre profonde */
+  font-family: 'Roboto', sans-serif; /* Police moderne */
+  width: 100%;
+  position: relative; /* Garder le formulaire relatif pour le centrer avec le titre */
+}
+
+
+/* Champs du formulaire */
+.add-student-form input {
+  padding: 15px;
+  font-size: 16px;
+  border: 1.5px solid #ecf0f5; /* Bord bleu clair */
+  border-radius: 8px; /* Coins arrondis */
+  background-color: #e6f2ff; /* Fond bleu clair */
+  width: 100%; /* Prend toute la largeur */
+  box-sizing: border-box;
+  transition: all 0.3s ease; /* Transition fluide */
+}
+
+/* Effet au focus des champs */
+.add-student-form input:focus {
+  outline: none; /* Supprime le contour par défaut */
+  border-color: #007bff; /* Bordure bleue plus marquée */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Ombre bleue subtile */
+}
+
+/* Boutons */
+.add-student-form button {
+  margin-top: 10px;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px; /* Coins arrondis */
+  font-weight: 600; /* Texte en gras */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Animation au survol */
+}
+
+/* Bouton Ajouter */
+.add-student-form button[type="submit"] {
+  background-color: #2600ff; /* Bleu foncé */
+  color: white;
+}
+
+.add-student-form button[type="submit"]:hover {
+  background-color: #0056b3; /* Bleu plus clair au survol */
+  transform: scale(1.05); /* Agrandissement subtil */
+}
+
+/* Bouton Annuler */
+.add-student-form button[type="button"] {
+  background-color: #f44336; /* Rouge */
+  color: white;
+}
+
+.add-student-form button[type="button"]:hover {
+  background-color: #e53935; /* Rouge foncé au survol */
+  transform: scale(1.05);
+}
+
+/* Boutons désactivés */
+.add-student-form button:disabled {
+  background-color: #ccc; /* Gris clair */
+  cursor: not-allowed; /* Indique que le bouton est inactif */
+}

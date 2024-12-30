@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./Addbook.css";
 
 const AddBook = () => {
   const [newBook, setNewBook] = useState({
@@ -95,7 +96,7 @@ const AddBook = () => {
   };
 
   return (
-    <div>
+    <div className="add-book-container">
       <h2>Ajouter un livre</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleAddBook}>

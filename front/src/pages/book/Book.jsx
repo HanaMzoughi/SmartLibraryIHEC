@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import "./Book.css";
 
 const Book = () => {
   const { _id } = useParams(); // Récupère l'ID du livre
@@ -164,44 +165,47 @@ const Book = () => {
 
   return (
     <div>
-      <div className="book-detail-overlay">
-        <div className="Book">
-          <h2>{book.Titre}</h2>
+    <div className="book-detail-overlay">
+      
+      <div className="book-info">
+        <h1>{book.Titre}</h1>
+        
+        <div className="book-info-item">
+          <h2>Auteur</h2> 
+          <p>{book.Auteur}</p> 
+          </div>
+        <div className="book-info-item">
+          <h2>Locale :</h2>
+          <p>{book.Locale}</p>
         </div>
-        <div className="book-info">
-          <h1>Détails du Livre</h1>
-          <p>ID du Livre : {book.id}</p>
-          <h2>Auteur : {book.Auteur}</h2>
-          <div>
-            <h2>Locale :</h2>
-            <p>{book.Locale}</p>
-          </div>
-          <div>
-            <h2>Code Barre :</h2>
-            <p>{book.Code_barre}</p>
-          </div>
-          <div>
-            <h2>Cote :</h2>
-            <p>{book.Cote}</p>
-          </div>
-          <div>
-            <h2>Inventaire :</h2>
-            <p>{book.Inventaire}</p>
-          </div>
-          <div>
-            <h2>Prix :</h2>
-            <p>{book.Prix}</p>
-          </div>
-          <div>
-            <h2>Editeur :</h2>
-            <p>{book.Editeur}</p>
-          </div>
-          <div>
-            <h2>Date édition :</h2>
-            <p>{book.Date_edition}</p>
-          </div>
-          <h2>État : {book.Etas}</h2>
+        <div className="book-info-item">
+          <h2>Code Barre :</h2>
+          <p>{book.Code_barre}</p>
         </div>
+        <div className="book-info-item">
+          <h2>Cote :</h2>
+          <p>{book.Cote}</p>
+        </div>
+        <div className="book-info-item">
+          <h2>Inventaire :</h2>
+          <p>{book.Inventaire}</p>
+        </div>
+        <div className="book-info-item">
+          <h2>Prix :</h2>
+          <p>{book.Prix}</p>
+        </div>
+        <div className="book-info-item">
+          <h2>Editeur :</h2>
+          <p>{book.Editeur}</p>
+        </div>
+        <div className="book-info-item">
+          <h2>Date édition :</h2>
+          <p>{book.Date_edition}</p>
+        </div>
+        <div className="book-info-item">
+        <h2>État : {book.Etas}</h2>
+        </div>
+      </div>
 
         {/* Afficher le bouton de réservation si l'utilisateur est étudiant et le livre est disponible */}
         {isStudent && book.Etas === "Disponible" && !showReservationForm && (

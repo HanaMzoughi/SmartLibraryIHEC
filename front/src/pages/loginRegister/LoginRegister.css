@@ -5,7 +5,7 @@
   height: 100vh;
   width: 100vw;
   margin-left: -12vw;
-  background-color: var(--primary-color);
+  background-color: #141f57;
   justify-content: center;
 }
 
@@ -17,16 +17,21 @@
   border-radius: 5%;
   align-self: center;
   align-items: center;
-  background-color: var(--background-color);
+  background-color: #FFFFFF;
   padding: 20px; /* Ajouter un peu de padding pour espacer les éléments */
 }
 
 .login-register-logo {
-  color: var(--primary-text-color);
-  font-weight: bolder;
-  font-size: xx-large; /* Augmenter la taille du logo */
-  padding-top: 10%;  /* Réduire l'espace supérieur */
+  color: #044fa0; /* Bleu moderne */
+  font-weight: 900; /* Plus gras */
+  font-size: 2.5rem; /* Taille ajustée */
+  font-family: 'Poppins', sans-serif; /* Police moderne */
+  text-transform: uppercase; /* Texte en majuscules */
+  letter-spacing: 2px; /* Espacement entre les lettres */
+  padding-top: 10%; /* Réduire l'espace supérieur */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Ajouter une ombre subtile */
 }
+
 
 .login-register-inputs {
   flex: 1;
@@ -53,4 +58,62 @@
   width: 200px; /* Ajustez la taille selon vos besoins */
   height: 200px;
   margin-top: 10px;
+
+}
+
+.row {
+  display: flex;
+  justify-content: space-around; /* Espacer les boutons uniformément */
+  align-items: center;
+  background-color: #FFFFFF; /* Couleur d'arrière-plan de la ligne */
+  padding: 20px; /* Espacement intérieur */
+  border-radius: 8px; /* Arrondi des coins */
+}
+
+.button {
+  padding: 10px 20px; /* Ajuster l'espace interne */
+  font-size: 1rem; /* Texte lisible */
+  border: none;
+  border-radius: 8px;
+  color: white; /* Couleur du texte */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Effet sur les interactions */
+}
+
+.button:hover {
+  transform: scale(1.05); /* Légère mise en avant au survol */
+}
+
+.button-cancel {
+  background-color: red; /* Fond rouge pour "Annuler" */
+}
+
+.button-cancel:hover {
+  background-color: darkred; /* Assombrir au survol */
+}
+
+.button-login {
+  background-color: #141f57; /* Fond bleu pour "Connexion" */
+}
+
+.button-login:hover {
+  background-color: darkblue; /* Assombrir au survol */
+}
+.login-register-logo {
+  display: flex; /* Permet l'alignement horizontal du logo et du texte */
+  align-items: center; /* Centre verticalement le logo et le texte */
+  color: #007BFF; /* Bleu moderne */
+  font-weight: 900; /* Texte en gras */
+  font-size: 2.5rem; /* Taille du texte */
+  font-family: 'Poppins', sans-serif; /* Police moderne */
+  text-transform: uppercase; /* Texte en majuscules */
+  letter-spacing: 2px; /* Espacement entre les lettres */
+  padding-top: 10%; /* Réduire l'espace supérieur */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Ombre subtile */
+}
+
+.logo-image {
+  width: 20px; /* Taille réduite mais proportionnelle */
+  height: 20px; /* Taille réduite mais proportionnelle */
+  margin-right: 15px; /* Espacement entre le logo et le texte */
 }

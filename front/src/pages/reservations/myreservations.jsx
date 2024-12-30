@@ -204,7 +204,7 @@ const MyReservations = () => {
         <table className="reservations-table">
           <thead>
             <tr>
-              <th>ID</th>
+              
               <th>Titre du livre</th>
               <th>Date de réservation</th>
               <th>Durée</th>
@@ -216,7 +216,7 @@ const MyReservations = () => {
           <tbody>
             {reservations.map((reservation) => (
               <tr key={reservation.id}>
-                <td>{reservation.id}</td>
+               
                 <td>{reservation.book}</td>
                 <td>{formatDate(reservation.date_reservation)}</td>
                 <td>{reservation.duration}</td>
