@@ -180,7 +180,7 @@ const MyReservations = () => {
 
   return (
     <div className="reservations-table-container">
-      <h1>Liste des réservations</h1>
+      <h1>Liste de mes réservations</h1>
 
       {editMode ? (
         <div className="edit-form">

@@ -10,7 +10,7 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
-import axios from 'axios';
+import axios from "axios";
 
 // Enregistrer les composants nécessaires pour Chart.js
 ChartJS.register(
@@ -28,61 +28,55 @@ const StudentDashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Appel API pour récupérer les informations sur les étudiants
-    axios.get('http://localhost:8000/users/all/', {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      }
-    })
-    .then((response) => {
-      const roleCount = {}; // Comptage de tous les rôles
-      const universityCount = {};
-      const specialityCount = {};
+    axios
+      .get("http://localhost:8000/users/all/", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Corrected the Authorization header
+        },
+      })
+      .then((response) => {
+        const roleCount = {};
+        const universityCount = {};
+        const specialityCount = {};
 
-      const users = response.data.users; // Récupère tous les utilisateurs
+        const users = response.data.users;
 
-      users.forEach((student) => {
-        // Filtrer pour n'afficher que les rôles "étudiant" et "bibliothécaire"
-        if (student.role === 'étudiant' || student.role === 'bibliothécaire') {
-          // Comptage des rôles
-          roleCount[student.role] = (roleCount[student.role] || 0) + 1;
+        users.forEach((student) => {
+          if (student.role === "étudiant" || student.role === "bibliothécaire") {
+            roleCount[student.role] = (roleCount[student.role] || 0) + 1;
 
-          // Comptage par université
-          if (student.university) {
-            universityCount[student.university] = (universityCount[student.university] || 0) + 1;
+            if (student.university) {
+              universityCount[student.university] =
+                (universityCount[student.university] || 0) + 1;
+            }
+
+            if (student.speciality) {
+              specialityCount[student.speciality] =
+                (specialityCount[student.speciality] || 0) + 1;
+            }
           }
+        });
 
-          // Comptage par spécialité
-          if (student.speciality) {
-            specialityCount[student.speciality] = (specialityCount[student.speciality] || 0) + 1;
-          }
-        }
+        setStudentStats({ roleCount, universityCount, specialityCount });
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la récupération des données des étudiants:", error);
+        setLoading(false);
       });
-
-      setStudentStats({ roleCount, universityCount, specialityCount });
-      setLoading(false);
-    })
-    .catch((error) => {
-      console.error("Erreur lors de la récupération des données des étudiants:", error);
-      setLoading(false);
-    });
   }, []);
 
   if (loading) {
-    return <div>Chargement...</div>;
+    return <div style={{ textAlign: "center", marginTop: "20px" }}>Chargement...</div>;
   }
 
-  // Préparation des données pour les graphiques
   const roleData = {
     labels: Object.keys(studentStats.roleCount),
     datasets: [
       {
         label: "Répartition par rôle",
         data: Object.values(studentStats.roleCount),
-        backgroundColor: [
-          "rgba(75, 192, 192, 0.6)",
-          "rgba(255, 99, 132, 0.6)",
-        ],
+        backgroundColor: ["rgba(70, 180, 180, 0.6)", "rgba(53, 79, 248, 0.6)"],
       },
     ],
   };
@@ -96,7 +90,7 @@ const StudentDashboard = () => {
         backgroundColor: [
           "rgba(153, 102, 255, 0.6)",
           "rgba(54, 162, 235, 0.6)",
-          "rgba(255, 159, 64, 0.6)",
+          "rgba(45, 75, 207, 0.6)",
         ],
       },
     ],
@@ -110,64 +104,106 @@ const StudentDashboard = () => {
         data: Object.values(studentStats.specialityCount),
         backgroundColor: [
           "rgba(255, 205, 86, 0.6)",
-          "rgba(75, 192, 192, 0.6)",
+          "rgba(59, 113, 230, 0.6)",
           "rgba(255, 159, 64, 0.6)",
         ],
       },
     ],
   };
 
-  return (
-    <div style={{ padding: "20px", textAlign: "center" }}>
-      <h1 style={{ marginBottom: "20px" }}>Tableau de Bord des Étudiants</h1>
+  const styles = {
+    container: {
+      padding: "30px",
+      textAlign: "center",
+      backgroundColor: "#f7f9fc",
+      color: "#333",
+      marginLeft: "100px", 
+    },
+    title: {
+      marginBottom: "20px",
+      color: "#1565c0", // Bleu marine
+      fontWeight: "bold",
+      marginLeft: "-10px", 
+    },
+    chartContainer: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "20px",
+    },
+    row: {
+      display: "flex",
+      justifyContent: "space-between",
+      gap: "20px",
+      flexWrap: "wrap",
+    },
+    fullWidth: {
+      width: "100%", // Assurez-vous que ce graphique occupe toute la largeur
+    },
+    chart: {
+      backgroundColor: "#ffffff",
+      border: "2px solid #1565c0", // Cadre bleu marine
+      borderRadius: "10px",
+      padding: "20px",
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    },
+    barChart: {
+      flex: "1 1 48%",
+      minWidth: "500px",
+    },
+    pieChart: {
+      flex: "1 1 40%",
+      minWidth: "500px",
+    },
+  };
 
-      {/* Conteneur pour les graphiques */}
-      <div style={{ display: "flex", justifyContent: "space-between", gap: "20px", flexWrap: "wrap" }}>
-        {/* Graphique de la répartition par rôle */}
-        <div style={{ width: "48%", minWidth: "500px" }}>
-          <Bar
-            data={roleData}
-            options={{
-              responsive: true,
-              plugins: {
-                title: {
-                  display: true,
-                  text: "Répartition par rôle",
-                },
-              },
-              scales: {
-                x: {
-                  ticks: {
-                    autoSkip: false,
+  return (
+    <div style={styles.container}>
+      <h1 style={styles.title}>Statistiques des utilisateurs</h1>
+      <div style={styles.chartContainer}>
+        <div style={styles.row}>
+          <div style={{ ...styles.chart, ...styles.barChart }}>
+            <Bar
+              data={roleData}
+              options={{
+                responsive: true,
+                plugins: {
+                  title: {
+                    display: true,
+                    text: "Répartition par rôle",
                   },
                 },
-                y: {
-                  beginAtZero: true,
+                scales: {
+                  x: {
+                    ticks: {
+                      autoSkip: false,
+                    },
+                  },
+                  y: {
+                    beginAtZero: true,
+                  },
                 },
-              },
-            }}
-          />
+              }}
+            />
+          </div>
+
+          <div style={{ ...styles.chart, ...styles.pieChart }}>
+            <Pie
+              data={universityData}
+              options={{
+                responsive: true,
+                plugins: {
+                  title: {
+                    display: true,
+                    text: "Répartition par université",
+                  },
+                },
+                cutout: "40%",
+              }}
+            />
+          </div>
         </div>
 
-        {/* Graphique de la répartition par université */}
-        <div style={{ width: "30%", minWidth: "300px" }}>
-          <Pie
-            data={universityData}
-            options={{
-              responsive: true,
-              plugins: {
-                title: {
-                  display: true,
-                  text: "Répartition par université",
-                },
-              },
-              cutout: '60%', // Réduit la taille du cercle dans le graphique Pie
-            }}
-          />
-        </div>
-
-        {/* Graphique de la répartition par spécialité */}
-        <div style={{ width: "48%", minWidth: "500px" }}>
+        <div style={{ ...styles.chart, ...styles.fullWidth }}>
           <Bar
             data={specialityData}
             options={{
@@ -189,6 +225,7 @@ const StudentDashboard = () => {
                 },
               },
             }}
+            style={{ width: "100%" }} // Étend le graphique à toute la largeur
           />
         </div>
       </div>

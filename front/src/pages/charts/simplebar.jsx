@@ -28,10 +28,8 @@ const Dashboard = () => {
 
   // Fonction utilitaire pour nettoyer les noms d'auteurs
   const cleanAuthorName = (name) => {
-    // Supprimer les espaces avant et après et normaliser les espaces
-    const trimmedName = name.trim().replace(/\s+/g, " "); // Remplacer les espaces multiples par un seul espace
-    // Vérifie que le nom n'est pas vide, composé uniquement de tirets ou de tirets multiples
-    return trimmedName && !/^-+$/.test(trimmedName) && trimmedName !== '-' && trimmedName !== '- -' && trimmedName !== "" ? trimmedName : null;
+    const trimmedName = name.trim().replace(/\s+/g, " ");
+    return trimmedName && !/^-+$/.test(trimmedName) && trimmedName !== "-" && trimmedName !== "- -" && trimmedName !== "" ? trimmedName : null;
   };
 
   useEffect(() => {
@@ -44,20 +42,17 @@ const Dashboard = () => {
 
         if (Array.isArray(responseData)) {
           responseData.forEach((book) => {
-            // Comptage de la disponibilité
             if (book.Etas === "Disponible") {
               availabilityCount.disponible += 1;
             } else if (book.Etas === "Non disponible") {
               availabilityCount.nonDisponible += 1;
             }
 
-            // Nettoyage et comptage des auteurs
             const cleanedAuthor = cleanAuthorName(book.Auteur);
             if (cleanedAuthor) {
               authorCount[cleanedAuthor] = (authorCount[cleanedAuthor] || 0) + 1;
             }
 
-            // Comptage par cote (en excluant les valeurs invalides)
             if (book.Cote && book.Cote.trim() !== "-" && book.Cote.trim() !== "") {
               const cleanedCote = book.Cote.trim();
               coteCount[cleanedCote] = (coteCount[cleanedCote] || 0) + 1;
@@ -78,10 +73,9 @@ const Dashboard = () => {
     return <div>Chargement...</div>;
   }
 
-  // Limiter à 10 premiers auteurs avec le plus de livres
   const sortedAuthors = Object.entries(bookStats.authorCount)
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 10); // Affichage des 10 premiers auteurs
+    .slice(0, 10);
 
   const topAuthors = sortedAuthors.map(([author]) => author);
   const topAuthorCounts = sortedAuthors.map(([_, count]) => count);
@@ -104,15 +98,12 @@ const Dashboard = () => {
     ],
   };
 
-  // Limiter à 10 premiers cotes et enlever les vides
   const coteData = () => {
     const maxDisplayCotes = 10;
     const coteEntries = Object.entries(bookStats.coteCount);
 
-    // Trier les cotes et prendre les 10 premières
     const sortedCotes = coteEntries.sort((a, b) => b[1] - a[1]).slice(0, maxDisplayCotes);
 
-    // Préparer les données pour le graphique
     const labels = sortedCotes.map(([cote]) => cote);
     const data = sortedCotes.map(([_, count]) => count);
 
@@ -139,7 +130,6 @@ const Dashboard = () => {
     };
   };
 
-  // Graphique de la répartition par disponibilité
   const availabilityData = {
     labels: ["Disponible", "Non disponible"],
     datasets: [
@@ -151,56 +141,110 @@ const Dashboard = () => {
     ],
   };
 
-  return (
-    <div style={{ padding: "20px", textAlign: "center" }}>
-      <h1 style={{ marginBottom: "20px" }}>Tableau de Bord</h1>
+  const styles = {
+    container: {
+      padding: "20px",
+      textAlign: "center",
+      backgroundColor: "#f4f6f8",
+      width: "950px",
+      marginLeft:"100px"
       
-      {/* Conteneur pour les graphiques */}
-      <div style={{ display: "flex", justifyContent: "space-between", gap: "20px", flexWrap: "wrap" }}>
-        {/* Graphique de la répartition par disponibilité */}
-        <div style={{ width: "48%", minWidth: "500px" }}>
-          <Bar
-            data={availabilityData}
-            options={{
-              responsive: true,
-              plugins: {
-                title: {
-                  display: true,
-                  text: "Répartition par disponibilité",
-                },
-              },
-              scales: {
-                x: {
-                  ticks: {
-                    autoSkip: false,
+    },
+    title: {
+      marginBottom: "30px",
+      color: "#003366", // Bleu foncé
+      fontSize: "32px",
+      fontWeight: "bold",
+    },
+    chartContainer: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "30px",
+      margin: "0 auto",
+    },
+    chartRow: {
+      display: "flex",
+      justifyContent: "space-between",
+      width: "100%",
+      gap: "20px",
+      maxWidth: "1200px",
+    },
+    chartItem: {
+      width: "48%",
+      minWidth: "350px",
+      backgroundColor: "#ffffff",
+      padding: "15px",
+      borderRadius: "10px",
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+      border: "2px solid #003366", // Bleu foncé pour le cadre
+    },
+    chartTitle: {
+      fontSize: "20px",
+      color: "#333",
+      marginBottom: "20px",
+    },
+    coteChartItem: {
+      width: "100%",
+      minWidth: "500px",
+      backgroundColor: "#ffffff",
+      padding: "15px",
+      borderRadius: "10px",
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+      border: "2px solid #003366", // Bleu foncé pour le cadre
+    },
+  };
+
+  return (
+    <div style={styles.container}>
+      <h1 style={styles.title}>Tableau de bord étudiant</h1>
+      <div style={styles.chartContainer}>
+        <div style={styles.chartRow}>
+          <div style={styles.chartItem}>
+            <h2 style={styles.chartTitle}>Répartition par disponibilité</h2>
+            <Bar
+              data={availabilityData}
+              options={{
+                responsive: true,
+                plugins: {
+                  title: {
+                    display: true,
+                    text: "Répartition par disponibilité",
                   },
                 },
-                y: {
-                  beginAtZero: true,
+                scales: {
+                  x: {
+                    ticks: {
+                      autoSkip: false,
+                    },
+                  },
+                  y: {
+                    beginAtZero: true,
+                  },
                 },
-              },
-            }}
-          />
+              }}
+            />
+          </div>
+
+          <div style={styles.chartItem}>
+            <h2 style={styles.chartTitle}>Les 10 premiers auteurs</h2>
+            <Pie
+              data={authorData}
+              options={{
+                responsive: true,
+                plugins: {
+                  title: {
+                    display: true,
+                    text: "Les 10 premiers auteurs",
+                  },
+                },
+              }}
+            />
+          </div>
         </div>
 
-        {/* Graphique de la répartition par auteur */}
-        <div style={{ width: "48%", minWidth: "500px" }}>
-          <Pie
-            data={authorData}
-            options={{
-              responsive: true,
-              plugins: {
-                title: {
-                  display: true,
-                  text: "Les 10 premiers auteurs",
-                },
-              },
-            }}
-          />
-        </div>
-
-        {/* Graphique de la répartition par cote */}
-        <div style={{ width: "48%", minWidth: "500px" }}>
+        <div style={styles.coteChartItem}>
+          <h2 style={styles.chartTitle}>Répartition par cote</h2>
           <Bar
             data={coteData()}
             options={{
