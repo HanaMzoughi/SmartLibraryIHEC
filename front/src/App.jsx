@@ -18,6 +18,8 @@ import MyReservations from "./pages/reservations/myreservations";
 import Dashboard from "./pages/charts/simplebar";
 import StudentDashboard from "./pages/charts/studentchart";
 import ReservationStats from "./pages/charts/reservationchart";
+import Footerpage from "./components/footer/footer";
+import LandingPage from "./pages/main/main";
 const App = () => {
   const [auth, setAuth] = useState("");
 
@@ -40,7 +42,8 @@ const App = () => {
         <Header className="app-header" auth={auth} />
         <div className="routes">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<LandingPage/>}/>
+            <Route path="/books" element={<Home />} />
             <Route
               path="/login-register"
               element={<LoginRegister handleAuth={handleAuth} />}
@@ -64,8 +67,10 @@ const App = () => {
             
             <Route path="/userlist" element={<UsersTable handleAuth={handleAuth} /> } /> 
           </Routes>
+          <Footerpage/> 
         </div>
-      </div>
+          
+        </div>
     </Router>
   );
 };
