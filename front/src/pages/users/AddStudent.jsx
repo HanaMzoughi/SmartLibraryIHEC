@@ -66,7 +66,7 @@ const AddUser = () => {
 
   return (
     <div className="add-student-container">
-      <h1>Ajouter un utilisateur</h1>
+      <h1 style={{ marginLeft: '10px' }}>Ajouter un utilisateur</h1>
       {error && <p className="error-message">{error}</p>}
       {successMessage && <p className="success-message">{successMessage}</p>}
 

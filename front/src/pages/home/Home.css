@@ -1,6 +1,6 @@
 /* Container styling */
 .table-container {
-  width: 85%; /* Réduit un peu la largeur pour l'esthétique */
+  width: 80%; /* Réduit un peu la largeur pour l'esthétique */
   margin: 40px;
   padding: 60px;
   background: linear-gradient(to bottom, #e8f4fc, #ffffff);

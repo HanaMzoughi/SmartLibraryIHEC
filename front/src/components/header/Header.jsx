@@ -64,10 +64,10 @@ const Header = ({ auth }) => {
   return (
     <div className="navigate-container">
       <div className="header-logo">
-      <img src="/log.png" alt="IHEC Carthage Logo" className="logo-image" />
+        <img src="/log.png" alt="IHEC Carthage Logo" className="logo-image" />
       </div>
       <Link to="/" className="navigate-button">
-        Acceuil
+        Accueil
       </Link>
       {isAdmin && (
         <>
@@ -80,19 +80,32 @@ const Header = ({ auth }) => {
           <Link to="/addbook" className="navigate-button">
             Ajouter livre
           </Link>
+          <Link to="/chartuser" className="navigate-button">
+            Dashboard Admin
+          </Link>
         </>
       )}
 
       {isLibrarian && (
-        <Link to="/reservations" className="navigate-button">
-          Reservations
-        </Link>
+        <>
+          <Link to="/reservations" className="navigate-button">
+            Reservations
+          </Link>
+          <Link to="/chartreservation" className="navigate-button">
+            Dashboard Bibliothécaire
+          </Link>
+        </>
       )}
 
       {isStudent && (
-        <Link to="/myreservations" className="navigate-button">
-          Mes réservations
-        </Link>
+        <>
+          <Link to="/myreservations" className="navigate-button">
+            Mes réservations
+          </Link>
+          <Link to="/chart" className="navigate-button">
+            Dashboard Étudiant
+          </Link>
+        </>
       )}
 
       <Link

@@ -99,8 +99,7 @@ const UsersTable = () => {
 
   return (
     <div className="users-table-container">
-      <h1>Liste des utilisateurs</h1>
-  
+     <h1 style={{ marginLeft: '10px' }}>Liste des utilisateurs</h1>  
       {/* Bouton pour naviguer vers la page de création, masqué en mode édition */}
       {!editMode && (
         <button className="button-add-user" onClick={() => navigate('/create')}>Ajouter utilisateur</button>
