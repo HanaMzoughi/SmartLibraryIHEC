@@ -9,7 +9,7 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFilter, setSearchFilter] = useState("Titre");
-  const itemsPerPage = 8;
+  const itemsPerPage = 10;
   const navigate = useNavigate();
 
   useEffect(() => {

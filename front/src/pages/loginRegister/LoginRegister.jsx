@@ -7,9 +7,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import logo from './logo.jpg';
 
-
-
-
 export default function LoginRegister({ handleAuth }) {
   const [login, setLogin] = useState(true);
   const [email, setEmail] = useState("");

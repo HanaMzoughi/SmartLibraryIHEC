@@ -31,7 +31,7 @@ const StudentDashboard = () => {
     axios
       .get("http://localhost:8000/users/all/", {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Corrected the Authorization header
         },
       })
       .then((response) => {
@@ -117,11 +117,13 @@ const StudentDashboard = () => {
       textAlign: "center",
       backgroundColor: "#f7f9fc",
       color: "#333",
+      marginLeft: "100px", 
     },
     title: {
       marginBottom: "20px",
       color: "#1565c0", // Bleu marine
       fontWeight: "bold",
+      marginLeft: "-10px", 
     },
     chartContainer: {
       display: "flex",
@@ -135,7 +137,7 @@ const StudentDashboard = () => {
       flexWrap: "wrap",
     },
     fullWidth: {
-      width: "700px",
+      width: "100%", // Assurez-vous que ce graphique occupe toute la largeur
     },
     chart: {
       backgroundColor: "#ffffff",
@@ -146,17 +148,17 @@ const StudentDashboard = () => {
     },
     barChart: {
       flex: "1 1 48%",
-      minWidth: "700px",
+      minWidth: "500px",
     },
     pieChart: {
       flex: "1 1 40%",
-      minWidth: "700px",
+      minWidth: "500px",
     },
   };
 
   return (
     <div style={styles.container}>
-      <h1 style={styles.title}>Statistiques des étudiants</h1>
+      <h1 style={styles.title}>Statistiques des utilisateurs</h1>
       <div style={styles.chartContainer}>
         <div style={styles.row}>
           <div style={{ ...styles.chart, ...styles.barChart }}>
@@ -223,6 +225,7 @@ const StudentDashboard = () => {
                 },
               },
             }}
+            style={{ width: "100%" }} // Étend le graphique à toute la largeur
           />
         </div>
       </div>

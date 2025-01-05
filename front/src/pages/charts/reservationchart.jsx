@@ -21,6 +21,7 @@ const ReservationStats = () => {
       padding: "20px",
       textAlign: "center",
       backgroundColor: "#f7f9fc",
+      marginLeft:"150px",
     },
     header: {
       color: "#001f3f",
@@ -86,7 +87,7 @@ const ReservationStats = () => {
     const fetchReservations = async () => {
       try {
         const response = await axios.get("http://localhost:8000/reservations/all", {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }, // Correction ici
         });
 
         const updatedReservations = await Promise.all(
@@ -110,8 +111,8 @@ const ReservationStats = () => {
 
   const fetchUserDetails = async (studentId) => {
     try {
-      const response = await axios.get(`http://localhost:8000/user/${studentId}/`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      const response = await axios.get(`http://localhost:8000/user/${studentId}/`, { // Correction ici
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }, // Correction ici
       });
       return response.data.username;
     } catch {
@@ -124,7 +125,7 @@ const ReservationStats = () => {
 
   return (
     <div style={styles.container}>
-      <h1 style={{ textAlign: 'center', color: '#1565c0' }}>Statistiques des réservations</h1>
+      <h1 style={{ textAlign: 'center', color: '#1565c0',marginLeft:"-10px" }}>Statistiques des réservations</h1>
       <div style={styles.chartContainer}>
         <div style={styles.row}>
           <div style={{ ...styles.chart, ...styles.pieChart }}>

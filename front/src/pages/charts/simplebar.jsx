@@ -146,6 +146,9 @@ const Dashboard = () => {
       padding: "20px",
       textAlign: "center",
       backgroundColor: "#f4f6f8",
+      width: "950px",
+      marginLeft:"100px"
+      
     },
     title: {
       marginBottom: "30px",
@@ -155,19 +158,26 @@ const Dashboard = () => {
     },
     chartContainer: {
       display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "30px",
+      margin: "0 auto",
+    },
+    chartRow: {
+      display: "flex",
       justifyContent: "space-between",
+      width: "100%",
       gap: "20px",
-      flexWrap: "wrap",
-      marginTop: "30px",
+      maxWidth: "1200px",
     },
     chartItem: {
-      width: "30%",  // Réduit la taille des graphiques (encore plus petit)
-      minWidth: "350px", // Réduit encore la largeur minimale
+      width: "48%",
+      minWidth: "350px",
       backgroundColor: "#ffffff",
       padding: "15px",
       borderRadius: "10px",
       boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-      border: "2px solid #003366",  // Bleu foncé pour le cadre
+      border: "2px solid #003366", // Bleu foncé pour le cadre
     },
     chartTitle: {
       fontSize: "20px",
@@ -175,13 +185,13 @@ const Dashboard = () => {
       marginBottom: "20px",
     },
     coteChartItem: {
-      width: "48%",  // Rendre le graphique de la répartition par cote un peu plus large
-      minWidth: "500px", // Garder une largeur minimale plus large
+      width: "100%",
+      minWidth: "500px",
       backgroundColor: "#ffffff",
       padding: "15px",
       borderRadius: "10px",
       boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-      border: "2px solid #003366",  // Bleu foncé pour le cadre
+      border: "2px solid #003366", // Bleu foncé pour le cadre
     },
   };
 
@@ -189,46 +199,48 @@ const Dashboard = () => {
     <div style={styles.container}>
       <h1 style={styles.title}>Tableau de bord étudiant</h1>
       <div style={styles.chartContainer}>
-        <div style={styles.chartItem}>
-          <h2 style={styles.chartTitle}>Répartition par disponibilité</h2>
-          <Bar
-            data={availabilityData}
-            options={{
-              responsive: true,
-              plugins: {
-                title: {
-                  display: true,
-                  text: "Répartition par disponibilité",
-                },
-              },
-              scales: {
-                x: {
-                  ticks: {
-                    autoSkip: false,
+        <div style={styles.chartRow}>
+          <div style={styles.chartItem}>
+            <h2 style={styles.chartTitle}>Répartition par disponibilité</h2>
+            <Bar
+              data={availabilityData}
+              options={{
+                responsive: true,
+                plugins: {
+                  title: {
+                    display: true,
+                    text: "Répartition par disponibilité",
                   },
                 },
-                y: {
-                  beginAtZero: true,
+                scales: {
+                  x: {
+                    ticks: {
+                      autoSkip: false,
+                    },
+                  },
+                  y: {
+                    beginAtZero: true,
+                  },
                 },
-              },
-            }}
-          />
-        </div>
+              }}
+            />
+          </div>
 
-        <div style={styles.chartItem}>
-          <h2 style={styles.chartTitle}>Les 10 premiers auteurs</h2>
-          <Pie
-            data={authorData}
-            options={{
-              responsive: true,
-              plugins: {
-                title: {
-                  display: true,
-                  text: "Les 10 premiers auteurs",
+          <div style={styles.chartItem}>
+            <h2 style={styles.chartTitle}>Les 10 premiers auteurs</h2>
+            <Pie
+              data={authorData}
+              options={{
+                responsive: true,
+                plugins: {
+                  title: {
+                    display: true,
+                    text: "Les 10 premiers auteurs",
+                  },
                 },
-              },
-            }}
-          />
+              }}
+            />
+          </div>
         </div>
 
         <div style={styles.coteChartItem}>

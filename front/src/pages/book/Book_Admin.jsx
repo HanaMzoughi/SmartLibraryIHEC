@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "./Book_Admin.css";
+import "./BookAdmin.css";
 
 
 const Book_Admin = () => {

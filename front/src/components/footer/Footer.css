@@ -1,0 +1,80 @@
+/* Footer */
+.foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #141f57;
+    color: #fff;
+    min-height: 150px; /* Utilisation de min-height pour un footer flexible */
+    padding: 20px;
+    width: 1340px;
+    margin-top: 100px; /* Ajouter un espace au-dessus */
+}
+
+.foot-section {
+    flex: 1;
+    text-align: center;
+    margin-left: 10px;  /* Réduire l'espacement à gauche */
+    margin-right: 10px; /* Réduire l'espacement à droite */
+}
+
+
+
+.foot h4 {
+    margin-top: 0;
+    margin-bottom: 10px; /* Réduit l'espace sous les titres */
+    font-size: 18px;
+    color: white;
+}
+
+.foot ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+.foot ul li {
+    margin-bottom: 5px; /* Réduit l'espace entre les éléments de la liste */
+}
+
+.foot ul li a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.foot ul li a:hover {
+    opacity: 1;
+}
+
+.p1 {
+    text-align: center;
+    background-color: #008080;
+    color: #fff;
+}
+/* Style pour la flèche qui remonte en haut */
+.scroll-to-top {
+    position: relative;
+    bottom: 20px;
+    right: 20px;
+    background-color: #0f0080;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    opacity: 0.7;
+    transition: opacity 0.3s;
+  }
+  
+  .scroll-to-top:hover {
+    opacity: 1;
+  }
+  
+  .scroll-to-top:focus {
+    outline: none;
+  }
+  

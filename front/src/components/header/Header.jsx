@@ -69,6 +69,9 @@ const Header = ({ auth }) => {
       <Link to="/" className="navigate-button">
         Accueil
       </Link>
+      <Link to="/books" className="navigate-button">
+        Liste des livres
+      </Link>
       {isAdmin && (
         <>
           <Link to="/userlist" className="navigate-button">
