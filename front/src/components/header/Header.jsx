@@ -80,9 +80,6 @@ const Header = ({ auth }) => {
           <Link to="/admin" className="navigate-button">
             Gérer livre
           </Link>
-          <Link to="/addbook" className="navigate-button">
-            Ajouter livre
-          </Link>
           <Link to="/chartuser" className="navigate-button">
             Dashboard Admin
           </Link>
