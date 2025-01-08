@@ -20,6 +20,8 @@ import StudentDashboard from "./pages/charts/studentchart";
 import ReservationStats from "./pages/charts/reservationchart";
 import Footerpage from "./components/footer/footer";
 import LandingPage from "./pages/main/main";
+import Chatbot from "./components/chatbot/chatbot";
+
 const App = () => {
   const [auth, setAuth] = useState("");
 
@@ -67,6 +69,7 @@ const App = () => {
             
             <Route path="/userlist" element={<UsersTable handleAuth={handleAuth} /> } /> 
           </Routes>
+          <Chatbot/>
           <Footerpage/> 
         </div>
           

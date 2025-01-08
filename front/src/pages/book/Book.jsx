@@ -70,50 +70,56 @@ const Book = () => {
     }
   };
 
-  // Récupérer toutes les réservations pour ce livre et ajuster l'état
-  const fetchReservations = async () => {
-    try {
-      const response = await axios.get("http://localhost:8000/reservations/all");
-      const bookReservations = response.data.filter(
-        (reservation) => reservation.book_id === _id
-      );
-      setReservations(bookReservations);
+ // Récupérer toutes les réservations pour ce livre et ajuster l'état
+const fetchReservations = async () => {
+  try {
+    const response = await axios.get("http://localhost:8000/reservations/all");
+    const bookReservations = response.data.filter(
+      (reservation) => reservation.book_id === _id
+    );
+    setReservations(bookReservations);
 
-      // Si une réservation existe pour ce livre, on le marque comme "Non disponible"
-      if (bookReservations.length > 0) {
-        updateBookStatus("Non disponible");
-      } else {
-        updateBookStatus("Disponible");
-      }
-    } catch (error) {
-      console.error("Erreur lors de la récupération des réservations:", error);
-      setError("Impossible de récupérer les réservations.");
+    // Vérifier si toutes les réservations sont terminées
+    const allReservationsCompleted = bookReservations.every(
+      (reservation) => reservation.status === "terminé"
+    );
+
+    // Mettre à jour l'état du livre selon les réservations
+    if (allReservationsCompleted || bookReservations.length === 0) {
+      await updateBookStatus("Disponible");
+    } else {
+      await updateBookStatus("Non disponible");
     }
-  };
+  } catch (error) {
+    console.error("Erreur lors de la récupération des réservations:", error);
+    setError("Impossible de récupérer les réservations.");
+  }
+};
 
-  // Mettre à jour l'état du livre (Disponible/Non disponible)
-  const updateBookStatus = async (newStatus) => {
-    try {
-      const response = await fetch(`http://localhost:8000/${_id}/edit/`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ Etas: newStatus }), // Changer l'état du livre
-      });
+// Mettre à jour l'état du livre (Disponible/Non disponible)
+const updateBookStatus = async (newStatus) => {
+  try {
+    const response = await fetch(`http://localhost:8000/${_id}/edit/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ Etas: newStatus }), // Changer l'état du livre
+    });
 
-      if (!response.ok) {
-        throw new Error("Erreur lors de la mise à jour de l'état du livre");
-      }
-
-      setBook((prevBook) => ({
-        ...prevBook,
-        Etas: newStatus,
-      }));
-    } catch (error) {
-      console.error("Erreur lors de la mise à jour de l'état du livre :", error);
+    if (!response.ok) {
+      throw new Error("Erreur lors de la mise à jour de l'état du livre");
     }
-  };
+
+    setBook((prevBook) => ({
+      ...prevBook,
+      Etas: newStatus,
+    }));
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour de l'état du livre :", error);
+  }
+};
+
 
   // Gérer la réservation du livre
   const handleReservation = async (e) => {
