@@ -68,16 +68,13 @@ cd SmartLibraryIHEC
 
 ### 1. Clone the Repository
 
-```bash
 git clone https://github.com/HanaMzoughi/SmartLibraryIHEC.git
 cd SmartLibraryIHEC
 
-```bash
 cd back
 python -m venv env
 source env/bin/activate
 
-```bash
 pip install -r requirements.txt
 
 # Configure Environment Variables
@@ -100,7 +97,7 @@ CORS_ALLOWED_ORIGINS=http://localhost:3000
 OPENAI_API_KEY=your_openai_api_key_here
 
 # Start the Backend Server
-```bash
+
 python manage.py runserver
 
 # Front :
