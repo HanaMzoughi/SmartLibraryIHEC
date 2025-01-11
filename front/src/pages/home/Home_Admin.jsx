@@ -67,7 +67,15 @@ const Home_Admin = () => {
           <option value="Editeur">Éditeur</option>
         </select>
       </div>
-
+{/* Bouton Ajouter Livre */}
+<div>
+      <button
+        className="add-book-button"
+        onClick={() => navigate("/addbook")}
+      >
+        Ajouter Livre
+      </button>
+    </div>
       {/* Table */}
       <table className="books-table">
         <thead>
