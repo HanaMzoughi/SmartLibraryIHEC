@@ -1,6 +1,7 @@
 # SmartLibraryIHEC
 
 A modern web application developed to streamline academic resource management and provide a digital library system. The project offers features for students and administrators to manage, consult, and access books through an intuitive interface, enhanced by an AI-powered chatbot.
+This project was developed as part of an academic assignment during the first semester of M2 Big Data Analytics.
 
 ## Project Structure
 
